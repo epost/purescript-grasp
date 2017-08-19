@@ -1,10 +1,13 @@
 module Language.Grasp.AST where
 
 import Prelude
+import Data.Maybe
 
-data Node = Node String
+type Label = String
 
-data Edge = Edge Node Node
+data Node = Node Label
+
+data Edge = Edge (Maybe Label) Node Node
 
 instance nodeEq :: Eq Node where
   eq (Node x) (Node y) = x == y
@@ -13,7 +16,7 @@ instance nodeShow :: Show Node where
   show (Node x) = "(Node " <> x <> ")"
 
 instance edgeEq :: Eq Edge where
-  eq (Edge s1 t1) (Edge s2 t2) = s1 == s2 && t1 == t2
+  eq (Edge l1 s1 t1) (Edge l2 s2 t2) = l1 == l2 && s1 == s2 && t1 == t2
 
 instance edgeShow :: Show Edge where
-  show (Edge s t) = "(Edge " <> show s <> " " <> show t <> ")"
+  show (Edge l s t) = "(Edge (" <> show l <> ")" <> show s <> " " <> show t <> ")"
