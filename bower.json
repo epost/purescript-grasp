@@ -1,0 +1,20 @@
+{
+  "name": "purescript-grasp",
+  "authors": [
+    "Erik Post <erik@shinsetsu.nl> (http://www.shinsetsu.nl)"
+  ],
+  "version": "0.1.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-parsing": "^4.3.1"
+  },
+  "devDependencies": {
+    "purescript-spec": "^1.0.0",
+    "purescript-console": "^3.0.0"
+  }
+}
