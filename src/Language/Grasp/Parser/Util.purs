@@ -8,7 +8,7 @@ import Data.String.Regex as R
 import Data.String.Regex.Flags (noFlags)
 import Data.String.Regex.Unsafe (unsafeRegex)
 import Text.Parsing.Parser (Parser)
-import Text.Parsing.Parser.Combinators (skipMany)
+import Text.Parsing.Parser.Combinators (skipMany, optional)
 import Text.Parsing.Parser.String (satisfy)
 
 -- adapted from https://github.com/slamdata/purescript-markdown/blob/master/src/Text/Markdown/SlamDown/Parser/Inline.purs
@@ -45,8 +45,11 @@ someOf p = fromCharArray <$> some (satisfy p)
 manyOf :: (Char -> Boolean) -> Parser String String
 manyOf p = fromCharArray <$> many (satisfy p)
 
-inSpaces :: Parser String String -> Parser String String
-inSpaces x = spaces *> x <* spaces
+inside :: forall a b. Parser String a -> Parser String b -> Parser String a
+inside x ignore = ignore *> x <* ignore
 
 spaces :: Parser String Unit
 spaces = skipMany (satisfy isWhitespace)
+
+hspaces :: Parser String Unit
+hspaces = skipMany (satisfy (isWhitespace && (_ /= '\n')))
