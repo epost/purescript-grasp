@@ -13,7 +13,7 @@ type Type = String
 
 data Node = Node LabelAndType
 
-data Edge = Edge (Maybe Label) Node Node
+data Edge = Edge (Maybe LabelAndType) Node Node
 
 instance nodeEq :: Eq Node where
   eq (Node x) (Node y) = x == y

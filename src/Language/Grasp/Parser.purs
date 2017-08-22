@@ -37,11 +37,9 @@ edge = do
   dest <- node
   pure $ Edge lbl src dest
 
-arrow :: Parser String (Maybe Label)
-arrow = Nothing <$                                           string "->"
-    <|> Just    <$> (string "-" *> label `inside` hspaces <* string "->")
-
-label = fst <$> labelAndType
+arrow :: Parser String (Maybe LabelAndType)
+arrow = Nothing <$                                                  string "->"
+    <|> Just    <$> (string "-" *> labelAndType `inside` hspaces <* string "->")
 
 labelAndType :: Parser String LabelAndType
 labelAndType =

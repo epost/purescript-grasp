@@ -24,7 +24,7 @@ fmtNode styler (Node (label /\ typ)) = quote label <> style
 
 fmtEdge :: NodeStyler -> Edge -> String
 fmtEdge styler (Edge lMaybe (Node (label1 /\ _)) (Node (label2 /\ _))) =
-  "  " <> quote label1 <> "->" <> quote label2 <> maybe "" (\l -> "[label=" <> quote l <> "]") lMaybe
+  "  " <> quote label1 <> "->" <> quote label2 <> maybe "" (\(l /\ t) -> "[label=" <> quote l <> "]") lMaybe
 
 fmtNodeStyle :: NodeStyleRec -> String
 fmtNodeStyle l = "["

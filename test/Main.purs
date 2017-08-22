@@ -22,7 +22,7 @@ import Test.Spec.Reporter.Console (consoleReporter)
 main :: _
 main = run [consoleReporter] do
   describe "label parsers" do
-    itParses "x"          Parser.label        $ "x"
+    itParses "x"          Parser.labelAndType $ "x" : Nothing
     itParses "x:A"        Parser.labelAndType $ "x" : Just "A"
     itParses "x: A"       Parser.labelAndType $ "x" : Just "A"
     itParses "x : A"      Parser.labelAndType $ "x" : Just "A"
@@ -31,16 +31,16 @@ main = run [consoleReporter] do
     itParses "abc,def"    Parser.node $ node "abc"
 
   describe "edge parsers" do
-    itParses "x->y"       Parser.edge $ Edge Nothing    (node "x") (node "y")
-    itParses "x -> y"     Parser.edge $ Edge Nothing    (node "x") (node "y")
-    itParses "x-f->y"     Parser.edge $ Edge (Just "f") (node "x") (node "y")
-    itParses "x -f-> y"   Parser.edge $ Edge (Just "f") (node "x") (node "y")
-    itParses "x - f -> y" Parser.edge $ Edge (Just "f") (node "x") (node "y")
+    itParses "x->y"       Parser.edge $ Edge Nothing                (node "x") (node "y")
+    itParses "x -> y"     Parser.edge $ Edge Nothing                (node "x") (node "y")
+    itParses "x-f->y"     Parser.edge $ Edge (Just ("f" : Nothing)) (node "x") (node "y")
+    itParses "x -f-> y"   Parser.edge $ Edge (Just ("f" : Nothing)) (node "x") (node "y")
+    itParses "x - f -> y" Parser.edge $ Edge (Just ("f" : Nothing)) (node "x") (node "y")
 
-    itParses "x:A -> y:B"                Parser.edge $ Edge Nothing    (node "x" ::: Just "A") (node "y" ::: Just "B")
-    itParses "x : A -> y : B"            Parser.edge $ Edge Nothing    (node "x" ::: Just "A") (node "y" ::: Just "B")
-    itParses "x:A -f:AtoB-> y:B"         Parser.edge $ Edge (Just "f") (node "x" ::: Just "A") (node "y" ::: Just "B")
-    itParses "x : A - f : AtoB -> y : B" Parser.edge $ Edge (Just "f") (node "x" ::: Just "A") (node "y" ::: Just "B")
+    itParses "x:A -> y:B"                Parser.edge $ Edge Nothing                    (node "x" ::: Just "A") (node "y" ::: Just "B")
+    itParses "x : A -> y : B"            Parser.edge $ Edge Nothing                    (node "x" ::: Just "A") (node "y" ::: Just "B")
+    itParses "x:A -f:AtoB-> y:B"         Parser.edge $ Edge (Just ("f" : Just "AtoB")) (node "x" ::: Just "A") (node "y" ::: Just "B")
+    itParses "x : A - f : AtoB -> y : B" Parser.edge $ Edge (Just ("f" : Just "AtoB")) (node "x" ::: Just "A") (node "y" ::: Just "B")
 
   describe "graph parsers" do
     itParses "x;x->y;y->z"    Parser.graph1 $ fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
@@ -73,7 +73,9 @@ itParses str p exp = it ("should parse: " <> str) $ (runParser str p) `shouldPar
 
 shouldParseTo v exp = shouldEqual v (Right exp)
 
--- some very rough and experimental bits of DSL to facilitate graph construction
+--
+-- Some very rough and experimental bits of DSL to facilitate graph construction.
+--
 
 -- | Construct an untyped node.
 node l = Node (l : Nothing)
@@ -92,6 +94,7 @@ n  = n2
 to1     =          Edge Nothing
 to2 x y =          Edge Nothing (node x) (node y)
 to3 x y = GEdge1 $ Edge Nothing (node x) (node y)
+
 infixl 4 to1 as ~>
 infixl 4 to2 as ~~>
 infixl 4 to3 as ~~~>
