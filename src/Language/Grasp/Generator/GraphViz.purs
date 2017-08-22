@@ -5,6 +5,7 @@ import Data.Foldable (class Foldable, intercalate, foldMap)
 import Data.Map as Map
 import Data.Map (Map(..))
 import Data.Maybe (Maybe(..), maybe)
+import Data.Tuple.Nested (type (/\), (/\))
 import Language.Grasp.AST
 
 type NodeStyler = Label -> Maybe NodeStyleRec
@@ -17,13 +18,13 @@ fmtGElem1 styler (GNode1 n) = fmtNode styler n
 fmtGElem1 styler (GEdge1 e) = fmtEdge styler e
 
 fmtNode :: NodeStyler -> Node -> String
-fmtNode styler (Node l) = quote l <> style
+fmtNode styler (Node (label /\ typ)) = quote label <> style
   where
-    style = foldMap (append " " <<< fmtNodeStyle) (styler l)
+    style = foldMap (append " " <<< fmtNodeStyle) (styler label)
 
 fmtEdge :: NodeStyler -> Edge -> String
-fmtEdge styler (Edge lMaybe (Node ls) (Node lt)) =
-  "  " <> quote ls <> "->" <> quote lt <> maybe "" (\l -> "[label=" <> quote l <> "]") lMaybe
+fmtEdge styler (Edge lMaybe (Node (label1 /\ _)) (Node (label2 /\ _))) =
+  "  " <> quote label1 <> "->" <> quote label2 <> maybe "" (\l -> "[label=" <> quote l <> "]") lMaybe
 
 fmtNodeStyle :: NodeStyleRec -> String
 fmtNodeStyle l = "["

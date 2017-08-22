@@ -13,7 +13,7 @@ import Text.Parsing.Parser (Parser)
 import Text.Parsing.Parser.Combinators
 import Text.Parsing.Parser.String
 
-import Language.Grasp.AST (Node(..), Edge(..), Label, Type, GElem1(..))
+import Language.Grasp.AST (Node(..), Edge(..), Label, Type, LabelAndType, GElem1(..))
 import Language.Grasp.Parser.Util
 
 graph1 :: Parser String (List GElem1)
@@ -26,7 +26,7 @@ gElem1 = GEdge1 <$> try edge
 --------------------------------------------------------------------------------
 
 node :: Parser String Node
-node = Node <$> label
+node = Node <$> labelAndType
 
 edge :: Parser String Edge
 edge = do
@@ -43,7 +43,7 @@ arrow = Nothing <$                                           string "->"
 
 label = fst <$> labelAndType
 
-labelAndType :: Parser String (Label /\ Maybe Type)
+labelAndType :: Parser String LabelAndType
 labelAndType =
   Tuple <$> ident <*> (try typeAscription <|> nothing)
   where
