@@ -6,11 +6,14 @@ import Data.Array (fromFoldable)
 import Data.Maybe (Maybe(..))
 import Data.String as String
 import Data.List (List(..))
+import Data.Maybe (Maybe(..), maybe)
+import Data.Tuple (Tuple(..), fst)
+import Data.Tuple.Nested (type (/\), (/\))
 import Text.Parsing.Parser (Parser)
 import Text.Parsing.Parser.Combinators
 import Text.Parsing.Parser.String
 
-import Language.Grasp.AST (Node(..), Edge(..), Label, GElem1(..))
+import Language.Grasp.AST (Node(..), Edge(..), Label, Type, GElem1(..))
 import Language.Grasp.Parser.Util
 
 graph1 :: Parser String (List GElem1)
@@ -28,15 +31,24 @@ node = Node <$> label
 edge :: Parser String Edge
 edge = do
   src  <- node
-  _    <- spaces
+  _    <- hspaces
   lbl  <- arrow
-  _    <- spaces
+  _    <- hspaces
   dest <- node
   pure $ Edge lbl src dest
 
 arrow :: Parser String (Maybe Label)
-arrow = Nothing <$                                              string "->"
-    <|> Just    <$> (string "-" *> spaces *> label <* spaces <* string "->")
+arrow = Nothing <$                                           string "->"
+    <|> Just    <$> (string "-" *> label `inside` hspaces <* string "->")
 
-label :: Parser String Label
-label = someOf $ isAlphaNum || (_ == '_')
+label = fst <$> labelAndType
+
+labelAndType :: Parser String (Label /\ Maybe Type)
+labelAndType =
+  Tuple <$> ident <*> (try typeAscription <|> nothing)
+  where
+    typeAscription = Just <$> (colon *> ident)
+    colon = (string ":") `inside` hspaces
+    nothing = pure Nothing
+
+ident = someOf $ isAlphaNum || (_ == '_')

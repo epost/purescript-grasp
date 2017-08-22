@@ -8,6 +8,7 @@ import Data.List (many, fromFoldable)
 import Data.Maybe (Maybe(..))
 import Data.Map as Map
 import Data.Tuple (Tuple(..))
+import Data.Tuple.Nested ((/\))
 import Language.Grasp.AST (Node(..), Edge(..), GElem1(..))
 import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Parser as Parser
@@ -20,6 +21,12 @@ import Test.Spec.Reporter.Console (consoleReporter)
 
 main :: _
 main = run [consoleReporter] do
+  describe "label parsers" do
+    itParses "x"          Parser.label        $ "x"
+    itParses "x:A"        Parser.labelAndType $ "x" /\ Just "A"
+    itParses "x: A"       Parser.labelAndType $ "x" /\ Just "A"
+    itParses "x : A"      Parser.labelAndType $ "x" /\ Just "A"
+
   describe "node parsers" do
     itParses "abc,def"    Parser.node $ Node "abc"
 
@@ -29,6 +36,11 @@ main = run [consoleReporter] do
     itParses "x-f->y"     Parser.edge $ Edge (Just "f") (Node "x") (Node "y")
     itParses "x -f-> y"   Parser.edge $ Edge (Just "f") (Node "x") (Node "y")
     itParses "x - f -> y" Parser.edge $ Edge (Just "f") (Node "x") (Node "y")
+
+    itParses "x:A -> y:B"                Parser.edge $ Edge Nothing    (Node "x") (Node "y")
+    itParses "x : A -> y : B"            Parser.edge $ Edge Nothing    (Node "x") (Node "y")
+    itParses "x:A -f:AtoB-> y:B"         Parser.edge $ Edge (Just "f") (Node "x") (Node "y")
+    itParses "x : A - f : AtoB -> y : B" Parser.edge $ Edge (Just "f") (Node "x") (Node "y")
 
   describe "graph parsers" do
     itParses "x;x->y;y->z"    Parser.graph1 $ fromFoldable [GNode1 $ Node "x", GEdge1 $ Edge Nothing (Node "x") (Node "y"), GEdge1 $ Edge Nothing (Node "y") (Node "z")]

@@ -5,6 +5,8 @@ import Data.Maybe
 
 type Label = String
 
+type Type = String
+
 data Node = Node Label
 
 data Edge = Edge (Maybe Label) Node Node
