@@ -7,8 +7,7 @@ import Data.Map (Map(..))
 import Data.Maybe (Maybe(..), maybe)
 import Data.Tuple.Nested (type (/\), (/\))
 import Language.Grasp.AST
-
-type NodeStyler = Label -> Maybe NodeStyleRec
+import Language.Grasp.Generator
 
 digraph :: forall f. Functor f => Foldable f => f GElem1 -> NodeStyler -> String
 digraph g styler = "digraph {\n  " <> (intercalate "\n" (fmtGElem1 styler <$> g)) <> "\n}"

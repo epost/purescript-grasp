@@ -11,6 +11,7 @@ import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested ((/\))
 import Language.Grasp.AST (Node(..), Edge(..), GElem1(..), Label, Type, LabelAndType)
 import Language.Grasp.Generator.GraphViz as GraphViz
+import Language.Grasp.Generator.PlantUML as PlantUML
 import Language.Grasp.Parser as Parser
 import Text.Parsing.Parser (runParser)
 import Text.Parsing.Parser.String (satisfy)
@@ -61,15 +62,21 @@ main = run [consoleReporter] do
       `shouldEqual`
       "digraph {\n  \"x\" [color=\"red\"]\n  \"x\"->\"y\"\n  \"y\"->\"z\"\n}"
 
-    it "should produce correct GraphViz output for styled graph" $ GraphViz.digraph
+  describe "PlantUML backend" do
+    it "should produce a correct PlantUML sequence diagram" do
+      PlantUML.sequenceDiagram
+        [nt "x" "Actor", "x" ~~~> "y", "y" ~~~> "z"]
+        (styleEnv ["x" /\ {color: "red"}])
+        `shouldEqual`
+        ("@startuml\nactor \"x\"\n\"x\" -> \"y\"\n" <> "\"y\" -> \"z\"\n@enduml")
+
       [n "x", "x" ~~~> "y", "y" ~~~> "z"]
       (styleEnv ["x" /\ {color: "red"}])
-      `shouldEqual`
-      "digraph {\n  \"x\" [color=\"red\"]\n  \"x\"->\"y\"\n  \"y\"->\"z\"\n}"
 
 styleEnv = flip Map.lookup <<< Map.fromFoldable
 
-itParses str p exp = it ("should parse: " <> str) $ (runParser str p) `shouldParseTo` exp
+
+itParses str p exp = it ("should parse: \"" <> str <> "\" as " <> show exp) $ (runParser str p) `shouldParseTo` exp
 
 shouldParseTo v exp = shouldEqual v (Right exp)
 
