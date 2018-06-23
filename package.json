@@ -1,0 +1,31 @@
+{
+  "name": "purescript-grasp",
+  "version": "1.0.0",
+  "description": "PureScript Graph Specification Processor",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp test",
+    "build": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp build",
+    "test":  "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epost/purescript-grasp.git"
+  },
+  "keywords": [
+    "purescript",
+    "graph",
+    "parser"
+  ],
+  "author": "Erik Post",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "pulp": "^11.0.2",
+    "purescript": "^0.11.6"
+  }
+}
