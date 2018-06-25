@@ -3,7 +3,7 @@ module Language.Grasp.Parser where
 import Prelude hiding (between)
 import Control.Alt ((<|>))
 import Data.Array (fromFoldable)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), maybe)
 import Data.String as String
 import Data.List (List(..))
 import Data.Maybe (Maybe(..), maybe)
@@ -46,10 +46,19 @@ arrow = Nothing <$                                                  string "->"
 
 labelAndType :: Parser String LabelAndType
 labelAndType =
-  Tuple <$> ident <*> (try typeAscription <|> nothing)
+  Tuple <$> label <*> (try typeAscription <|> nothing)
   where
     typeAscription = Just <$> (colon *> ident)
     colon = (string ":") `inside` hspaces
     nothing = pure Nothing
+
+-- TODO stick the argument(s) in a separate field
+label :: Parser String Label
+label = fmt <$> ident <*> argsM
+  where
+    fmt f x = f <> x
+    fmtArgs x = "(" <> x <> ")"
+    args = string "(" *> ident <* string ")"
+    argsM = maybe "" fmtArgs <$> optionMaybe args
 
 ident = someOf $ isAlphaNum || (_ == '_')
