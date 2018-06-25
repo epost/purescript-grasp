@@ -1,0 +1,18 @@
+x1->y1
+x2 -> y2
+x3-f3->y3
+x4 -f4-> y4
+x5 - f5 -> y5
+x6:A -> y6:B
+x7 : A -> y7 : B
+x8:A -f8:AtoB-> y8:B
+x9 : A - f9 : AtoB -> y9 : B
+
+f(x0a) -> f(x0b)
+Array(123) -F(succ)-> Array(234)
+
+x10;x10->y10;y10->z10
+x11
+x11->y11
+y11->z11
+x12; x12->y12 ; y12->z12
