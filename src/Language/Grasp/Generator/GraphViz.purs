@@ -10,20 +10,30 @@ import Language.Grasp.AST
 import Language.Grasp.Generator
 
 digraph :: forall f. Functor f => Foldable f => f GElem1 -> NodeStyler -> String
-digraph g styler = "digraph {\n  " <> (intercalate "\n" (fmtGElem1 styler <$> g)) <> "\n}"
+digraph g styler = "digraph {\n" <> (intercalate "\n  " (fmtGElem1 styler <$> g)) <> "\n}"
 
 fmtGElem1 :: NodeStyler -> GElem1 -> String
 fmtGElem1 styler (GNode1 n) = fmtNode styler n
 fmtGElem1 styler (GEdge1 e) = fmtEdge styler e
 
 fmtNode :: NodeStyler -> Node -> String
-fmtNode styler (Node (label /\ typ)) = quote label <> style
+fmtNode styler (Node (label /\ typ)) =
+  quote label <> style
   where
     style = foldMap (append " " <<< fmtNodeStyle) (styler label)
 
 fmtEdge :: NodeStyler -> Edge -> String
-fmtEdge styler (Edge lMaybe (Node (label1 /\ _)) (Node (label2 /\ _))) =
-  "  " <> quote label1 <> "->" <> quote label2 <> maybe "" (\(l /\ t) -> "[label=" <> quote l <> "]") lMaybe
+fmtEdge styler (Edge lMaybe (Node lt1) (Node (lt2))) =
+     fmtLabelAndType lt1
+  <> "->"
+  <> fmtLabelAndType lt2
+  <> foldMap (\lt -> " [label=" <> fmtLabelAndType lt <> "]") lMaybe
+
+fmtLabelAndType :: LabelAndType -> String
+fmtLabelAndType (l /\ tm) = quote $ l <> fmtTypeAnno tm
+
+fmtTypeAnno :: Maybe Type -> String
+fmtTypeAnno = foldMap (": " <> _)
 
 fmtNodeStyle :: NodeStyleRec -> String
 fmtNodeStyle l = "["
