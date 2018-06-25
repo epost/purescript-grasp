@@ -1,0 +1,78 @@
+#+title:purescript-grasp
+
+
+* What is Grasp?
+
+Grasp, short for GRAph Specification Processor, allows you to:
+
+- Specify graphs in a super concise format.
+- Export graph structure to many other formats.
+- Leave formatting (layout, colouring, etc.) to other tools, such as GraphViz.
+
+Some points of comparison to give you an idea:
+
+|                                     | grasp                        | GraphViz             |
+|-------------------------------------+------------------------------+----------------------|
+| syntax                              | concise                      | a bit faffy at times |
+| semantics                           | anything                     | visual               |
+| nodes and edges have                | optional type annotations    | visual markup        |
+| export to                           | anything; see export formats | graphics formats     |
+| higher graphs (edges between edges) | TODO                         | no                   |
+
+* Examples
+
+Syntax is inspired by both GraphViz and Cypher:
+
+#+BEGIN_EXAMPLE
+# concise node and edge syntax
+
+a -> b
+b -> c; c -> d
+d, e, f -> g
+
+# labeled edges
+
+1 -succ-> 2
+
+# type annotations
+
+x:A -f-> y:B
+y -g:G-> z
+
+# function application syntax
+
+x -f(x)-> y
+x -> f(x)
+x:A -f(x)-> y:B
+#+END_EXAMPLE
+
+* Export formats
+
+Work on implementing these is ongoing:
+
+- [X] GraphViz
+- [X] PlantUML sequence diagram
+- [ ] Datalog, Prolog, other logic programming languages
+- [ ] [[https://en.wikipedia.org/wiki/Cypher_Query_Language][Cypher]] (Neo4j and others)
+- [ ] JSON
+- [ ] CSV
+- [ ] Markdown
+- [ ] org-table
+- [ ] vis.js
+
+* Features
+
+- [X] no formatting, only structure
+- [ ] higher graphs (arrows between arrows)
+- [ ] comma syntax: ~a,b,c -> d, e~
+- [X] type syntax? ~a:A - b:B -> c:C~
+- [X] function aaplication syntax: `x -> f(x) -> y`
+- [ ] comments
+- [ ] transitive syntax? ~a -> b -> c -> d~
+- [ ] reverse and bidirectional arrows?
+- [ ] allow (back)slash in node / edge labels? (handy for paths and URLs)?
+- [ ] quoted node / edge labels?
+- [ ] dash as part of identifiers (but without conflicts or ambiguities)
+- [ ] question mark as part of identifiers?
+- [ ] node / edge ids? maybe using hash mark?
+- [ ] allow references: graph transformations, styling, comments, legend, etc
