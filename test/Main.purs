@@ -98,6 +98,9 @@ n1 =            node
 n2 = GNode1 <<< node
 n  = n2
 
+nt :: String -> String -> GElem1
+nt l t = GNode1 $ Node (l : Just t)
+
 to1     =          Edge Nothing
 to2 x y =          Edge Nothing (node x) (node y)
 to3 x y = GEdge1 $ Edge Nothing (node x) (node y)
