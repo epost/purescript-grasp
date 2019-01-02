@@ -26,9 +26,10 @@ n  = n2
 nt :: String -> String -> GElem1
 nt l t = GNode1 $ Node (l : Just t)
 
-to1     =          Edge Nothing
-to2 x y =          Edge Nothing (node x) (node y)
-to3 x y = GEdge1 $ Edge Nothing (node x) (node y)
+to1        =          Edge Nothing
+to2 x y    =          Edge Nothing   (node x) (node y)
+to3 x y    = GEdge1 $ Edge Nothing   (node x) (node y)
+to4 x y lt = GEdge1 $ Edge (Just lt) (node x) (node y)
 
 infixl 4 to1 as ~>
 infixl 4 to2 as ~~>

@@ -66,10 +66,16 @@ main = run [consoleReporter] do
   describe "PlantUML backend" do
     it "should produce a correct PlantUML sequence diagram" do
       PlantUML.sequenceDiagram
-        [nt "x" "Actor", "x" ~~~> "y", "y" ~~~> "z"]
-        (styleEnv ["x" /\ {color: "red"}])
+        [ nt "user" "Actor"
+        , to4 "user" "browser" ("login" : pure "Credentials")
+        , "browser" ~~~> "z"
+        ]
+        (styleEnv ["user" /\ {color: "red"}])
         `shouldEqual`
-        ("@startuml\nactor \"x\"\n\"x\" -> \"y\"\n" <> "\"y\" -> \"z\"\n@enduml")
+        ("@startuml\n" <>
+         "actor \"user\"\n" <>
+         "\"user\" -> \"browser\": login: Credentials\n" <>
+         "\"browser\" -> \"z\"\n@enduml")
 
 styleEnv :: Array (String /\ NodeStyleRec) -> String -> Maybe NodeStyleRec
 styleEnv = flip Map.lookup <<< Map.fromFoldable
