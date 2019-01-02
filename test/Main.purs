@@ -1,8 +1,8 @@
 module Test.Main where
 
 import Prelude
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
+import Effect (Effect)
+import Effect.Class.Console (log)
 import Data.Either (Either(..))
 import Data.List (many, fromFoldable)
 import Data.Maybe (Maybe(..))
@@ -70,8 +70,6 @@ main = run [consoleReporter] do
         `shouldEqual`
         ("@startuml\nactor \"x\"\n\"x\" -> \"y\"\n" <> "\"y\" -> \"z\"\n@enduml")
 
-      [n "x", "x" ~~~> "y", "y" ~~~> "z"]
-      (styleEnv ["x" /\ {color: "red"}])
 
 styleEnv = flip Map.lookup <<< Map.fromFoldable
 

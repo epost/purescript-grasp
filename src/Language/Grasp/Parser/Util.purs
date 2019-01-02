@@ -2,7 +2,7 @@ module Language.Grasp.Parser.Util where
 
 import Prelude
 import Data.Array (some, many)
-import Data.String (fromCharArray)
+import Data.String.CodeUnits (fromCharArray, singleton)
 import Data.String as String
 import Data.String.Regex as R
 import Data.String.Regex.Flags (noFlags)
@@ -29,7 +29,7 @@ isDigit :: Char -> Boolean
 isDigit c = c >= '0' && c <= '9'
 
 isWhitespace :: Char -> Boolean
-isWhitespace = R.test wsRegex <<< String.singleton
+isWhitespace = R.test wsRegex <<< singleton
   where
     wsRegex = unsafeRegex "^\\s$" noFlags
     flags = { unicode: false
