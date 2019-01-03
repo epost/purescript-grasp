@@ -1,0 +1,48 @@
+body {
+  font-family: sans-serif;
+}
+a, a:visited {
+  color: blue;
+}
+pre {
+  background: #eee;
+  margin: 0;
+}
+.title {
+  display: inline-block;
+}
+#grid {
+  width: 100%;
+  display: table;
+}
+textarea {
+  width: 100%;
+}
+#input, #output {
+  min-height: 400px;
+}
+#outputVisual-container {
+  overflow: hidden;
+  overflow: scroll;
+}
+#outputVisual {
+  max-width: 50%;
+  max-height: 50%;
+  overflow: hidden;
+}
+#input {
+  font-family: monospace;
+  font-size: 14px;
+}
+#output {
+  padding-left: 1em;
+  padding-top: 0.5em;
+}
+.columns {
+  display: table-row;
+}
+.column {
+  display: table-cell;
+  vertical-align:top;
+  padding:0;
+}

@@ -11,7 +11,7 @@
     "build": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp build",
     "test": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp test",
     "ex": "PATH=node_modules/.bin:$PATH make example/test1.png",
-    "bundle": "PATH=node_modules/.bin:$PATH browserify cli/grasp.js > dist/grasp.js"
+    "bundle": "PATH=node_modules/.bin:$PATH browserify browser/grasp.js > dist/grasp.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "author": "Erik Post",
   "license": "ISC",
   "dependencies": {
+    "viz.js": "^2.1.2"
   },
   "devDependencies": {
     "pulp": "11.0.2",

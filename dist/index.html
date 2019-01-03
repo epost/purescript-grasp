@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:foo="http://www.w3.org/2000/svg">
+  <head>
+    <meta charset="utf-8"/>
+    <title>epost/purescript-grasp</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="grid">
+      <div class="columns">
+        <div class="column">
+          <h1 class="title">grasp</h1>
+          &nbsp;
+          <a href="https://github.com/epost/purescript-grasp">epost/purescript-grasp</a>
+        </div>
+        <div class="column">
+          <br/>
+          <br/>
+        </div>
+      </div>
+      <div class="columns">
+        <div id="input-container" class="column">
+          <textarea id="input">
+          </textarea>
+        </div>
+        <div id="output-container" class="column">
+          <pre id="output" />
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+        </div>
+        <div id="outputVisualContainer" class="column">
+          <div id="outputVisual" class="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="grasp.js"></script>
+    <script src="../node_modules/viz.js/viz.js"></script>
+    <script src="../node_modules/viz.js/full.render.js"></script>
+    <script>
+      var input0 =
+        "0 -succ-> 1\n" +
+        "\n" +
+        "x1->y1\n" +
+        "x2 -> y2\n" +
+        "x3-f3->y3\n" +
+        "x4 -f4-> y4\n" +
+        "x5 - f5 -> y5\n" +
+        "x6:A -> y6:B\n" +
+        "x7 : A -> y7 : B\n" +
+        "x8:A -f8:AtoB-> y8:B\n" +
+        "x9 : A - f9 : AtoB -> y9 : B\n" +
+        "\n" +
+        "f(x0a) -> f(x0b)\n" +
+        "Array(123) -F(succ)-> Array(234)\n" +
+        "\n" +
+        "x10;x10->y10;y10->z10\n" +
+        "x11\n" +
+        "x11->y11\n" +
+        "y11->z11\n" +
+        "x12; x12->y12 ; y12->z12\n";
+
+      var inputElem = document.getElementById('input')
+      var outputElem = document.getElementById('output')
+      var outputVisualElem = document.getElementById('outputVisual')
+
+      inputElem.value = input0;
+
+      var input = inputElem.value.trim()
+      console.log('input =', input)
+      var output = Grasp.CLI.compile('-g')(input)
+      console.log('output =', output)
+      outputElem.innerHTML = output
+
+      // render viz.js, see using https://github.com/mdaines/viz.js/wiki/Usage
+      var viz = new Viz()
+      viz.renderSVGElement(output)
+      .then(function(element) {
+        element.setAttribute('width', '') // respect mah authoritay!
+        element.setAttribute('height', '')
+        outputVisualElem.appendChild(element)
+      })
+      .catch(error => {
+        viz = new Viz()
+        console.error(error)
+      })
+    </script>
+  </body>
+</html>
