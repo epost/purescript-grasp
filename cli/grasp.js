@@ -1,4 +1,4 @@
-var Grasp = require('../output/Language.Grasp/index.js')
+var GraspCLI = require('../output/Language.Grasp.CLI/index.js')
 
 var strBuf_MUTABLE = ""
 
@@ -14,6 +14,6 @@ process.stdin.on('readable', () => {
 })
 
 process.stdin.on('end', () => {
-  var target = Grasp.compileCLI(firstOption)(strBuf_MUTABLE)
+  var target = GraspCLI.compile(firstOption)(strBuf_MUTABLE)
   process.stdout.write(target)
 })

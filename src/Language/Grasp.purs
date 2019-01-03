@@ -1,9 +1,6 @@
 module Language.Grasp
-  ( compileCLI
-  , compile
+  ( compile
   , OutputFormat(..)
-  , toGraphViz
-  , toPlantUML
   ) where
 
 import Prelude
@@ -33,24 +30,3 @@ compile outputFormat graspSrc =
 
     -- TODO parse stylesheet
     styler key = Nothing
-
--- CLI -------------------------------------------------------------------------
-
-compileCLI :: String -> String -> String
-compileCLI outputFormatOpt graspSrc =
-  compile outputFormat graspSrc
-  where
-    defaultOutputFormat = GraphVizDigraph
-    outputFormat = fromMaybe defaultOutputFormat $ parseOutputFormatOpt outputFormatOpt
-
-parseOutputFormatOpt :: String -> Maybe OutputFormat
-parseOutputFormatOpt = case _ of
-  "-g" -> Just $ GraphVizDigraph
-  "-p" -> Just $ PlantUMLSequenceDiagram
-  _    -> Nothing
-
-toGraphViz :: String -> String
-toGraphViz graspSrc = compile GraphVizDigraph graspSrc
-
-toPlantUML :: String -> String
-toPlantUML graspSrc = compile PlantUMLSequenceDiagram graspSrc
