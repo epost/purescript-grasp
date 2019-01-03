@@ -60,7 +60,34 @@ Work on implementing these is ongoing:
 - [ ] org-table
 - [ ] vis.js
 
-* Features
+* Usage
+
+Install:
+#+BEGIN_SRC bash
+npm install && bower install
+#+END_SRC
+
+Build:
+#+BEGIN_SRC bash
+npm run build
+#+END_SRC
+
+Run:
+#+BEGIN_SRC bash
+cat example/test1.grasp | node cli/grasp.js
+#+END_SRC
+
+Test:
+#+BEGIN_SRC bash
+npm run test
+#+END_SRC
+
+Bundle:
+#+BEGIN_SRC bash
+npm run bundle
+#+END_SRC
+
+* Features and roadmap
 
 - [X] no formatting, only structure
 - [ ] higher graphs (arrows between arrows)

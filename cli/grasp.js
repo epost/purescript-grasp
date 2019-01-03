@@ -1,4 +1,4 @@
-var Grasp = require('../output/Main/index.js')
+var Grasp = require('../output/Language.Grasp/index.js')
 
 var strBuf_MUTABLE = ""
 
@@ -12,6 +12,6 @@ process.stdin.on('readable', () => {
 })
 
 process.stdin.on('end', () => {
-  var g1 = Grasp.compileGraphViz(strBuf_MUTABLE)()
+  var g1 = Grasp.toGraphViz(strBuf_MUTABLE)
   process.stdout.write(g1)
 })

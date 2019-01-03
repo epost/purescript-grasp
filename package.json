@@ -9,8 +9,9 @@
   "scripts": {
     "start": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp run",
     "build": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp build",
-    "test":  "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp test",
-    "ex":    "PATH=node_modules/.bin:$PATH make example/test1.png"
+    "test": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp test",
+    "ex": "PATH=node_modules/.bin:$PATH make example/test1.png",
+    "bundle": "PATH=node_modules/.bin:$PATH browserify cli/grasp.js > dist/grasp.js"
   },
   "repository": {
     "type": "git",
