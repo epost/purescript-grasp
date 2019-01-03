@@ -2,6 +2,8 @@ var Grasp = require('../output/Language.Grasp/index.js')
 
 var strBuf_MUTABLE = ""
 
+var firstOption = process.argv[2] || ''
+
 process.stdin.setEncoding('utf8')
 
 process.stdin.on('readable', () => {
@@ -12,6 +14,6 @@ process.stdin.on('readable', () => {
 })
 
 process.stdin.on('end', () => {
-  var g1 = Grasp.toGraphViz(strBuf_MUTABLE)
-  process.stdout.write(g1)
+  var target = Grasp.compileCLI(firstOption)(strBuf_MUTABLE)
+  process.stdout.write(target)
 })

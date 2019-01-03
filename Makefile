@@ -1,7 +1,13 @@
 grasp=node js/grasp.js
 
 build:
-	PATH='node_modules/.bin:${PATH}' node_modules/.bin/pulp build
+	npm run build
+
+testcli:
+	npm run build
+	cat example/test1.grasp | node cli/grasp.js
+	cat example/test1.grasp | node cli/grasp.js -g
+	cat example/test1.grasp | node cli/grasp.js -p
 
 %.dot: %.grasp
 	cat $< | ${grasp} > $@
@@ -10,7 +16,7 @@ build:
 	dot -Kdot -Tpng $< > $@
 
 cleanex:
-	rm -f ${input}.dot ${input}.png
+	rm -f example/*.dot example/*.png
 
 cleanps:
 	rm -rf .pulp-cache output
@@ -19,4 +25,4 @@ supercleanps:
 	rm -rf bower-components .pulp-cache output
 
 # prevent make from deleting intermediate files
-.PRECIOUS: ${input}.dot
+.PRECIOUS: example/test1.dot
