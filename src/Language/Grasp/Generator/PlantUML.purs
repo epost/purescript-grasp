@@ -10,18 +10,20 @@ import Data.Maybe (Maybe(..), maybe)
 import Data.Tuple.Nested (type (/\),(/\))
 import Language.Grasp.AST
 import Language.Grasp.Generator
+import Language.Grasp.Stylesheet.AST (SelectorElem(..))
+import Language.Grasp.Stylesheet.AST as Stylesheet
 
-sequenceDiagram :: forall f. Functor f => Foldable f => f GElem1 -> NodeStyler -> String
+sequenceDiagram :: forall f. Functor f => Foldable f => f GElem1 -> Styler -> String
 sequenceDiagram g styler =
   "@startuml\n" <> foldMap (maybeNewline <<< fmtGElem1 styler) g <> "@enduml"
   where
     maybeNewline = maybe "" (_ <> "\n")
 
-fmtGElem1 :: NodeStyler -> GElem1 -> Maybe String
+fmtGElem1 :: Styler -> GElem1 -> Maybe String
 fmtGElem1 styler (GNode1 n) =       fmtNode styler n
 fmtGElem1 styler (GEdge1 e) = Just (fmtEdge styler e)
 
-fmtNode :: NodeStyler -> Node -> Maybe String
+fmtNode :: Styler -> Node -> Maybe String
 fmtNode styler (Node (label /\ typ)) =
   case typ of
     Just "Actor"       -> Just $ "actor "       <> quote label <> style
@@ -33,13 +35,13 @@ fmtNode styler (Node (label /\ typ)) =
     Just _             -> Nothing
     Nothing            -> Nothing
   where
-    style = foldMap fmtNodeStyle (styler label)
+    style = foldMap fmtNodeStyle (styler (SNode label))
 
-fmtEdge :: NodeStyler -> Edge -> String
+fmtEdge :: Styler -> Edge -> String
 fmtEdge styler (Edge lMaybe (Node (label1 /\ _)) (Node (label2 /\ _))) =
   quote label1 <> " -> " <> quote label2 <> maybe "" (\(l /\ t) -> ": " <> l <> fmtType t) lMaybe
   where
     fmtType = maybe "" (\t -> ": " <> t)
 
-fmtNodeStyle :: NodeStyleRec -> String
+fmtNodeStyle :: Stylesheet.Attrs -> String
 fmtNodeStyle l = ""

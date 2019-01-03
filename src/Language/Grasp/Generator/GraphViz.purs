@@ -1,6 +1,7 @@
 module Language.Grasp.Generator.GraphViz where
 
 import Prelude
+import Data.List (catMaybes, mapMaybe, List)
 import Data.Foldable (class Foldable, intercalate, foldMap)
 import Data.Map as Map
 import Data.Map (Map(..))
@@ -8,21 +9,23 @@ import Data.Maybe (Maybe(..), maybe)
 import Data.Tuple.Nested (type (/\), (/\))
 import Language.Grasp.AST
 import Language.Grasp.Generator
+import Language.Grasp.Stylesheet.AST as Stylesheet
+import Language.Grasp.Stylesheet.AST (SelectorElem(..))
 
-digraph :: forall f. Functor f => Foldable f => f GElem1 -> NodeStyler -> String
+digraph :: forall f. Functor f => Foldable f => f GElem1 -> Styler -> String
 digraph g styler = "digraph {\n  " <> (intercalate "\n  " (fmtGElem1 styler <$> g)) <> "\n}"
 
-fmtGElem1 :: NodeStyler -> GElem1 -> String
+fmtGElem1 :: Styler -> GElem1 -> String
 fmtGElem1 styler (GNode1 n) = fmtNode styler n
 fmtGElem1 styler (GEdge1 e) = fmtEdge styler e
 
-fmtNode :: NodeStyler -> Node -> String
+fmtNode :: Styler -> Node -> String
 fmtNode styler (Node (label /\ typ)) =
   quote label <> style
   where
-    style = foldMap (append " " <<< fmtNodeStyle) (styler label)
+    style = foldMap (append " " <<< fmtNodeStyle) (styler (SNode label))
 
-fmtEdge :: NodeStyler -> Edge -> String
+fmtEdge :: Styler -> Edge -> String
 fmtEdge styler (Edge lMaybe (Node lt1) (Node (lt2))) =
      fmtLabelAndType lt1
   <> "->"
@@ -35,10 +38,25 @@ fmtLabelAndType (l /\ tm) = quote $ l <> fmtTypeAnno tm
 fmtTypeAnno :: Maybe Type -> String
 fmtTypeAnno = foldMap (": " <> _)
 
-fmtNodeStyle :: NodeStyleRec -> String
-fmtNodeStyle l = "["
-  <> "color=" <> quote l.color
-  <> "]"
+fmtNodeStyle :: Stylesheet.Attrs -> String
+fmtNodeStyle attrs =
+  "[" <> (intercalate "; " <<< map fmtAttr $ fromAttr =<< attrs) <> "]"
+  where
+    fmtAttr (k /\ v) = k <> "=" <> quote v
 
 quote :: String -> String
 quote s = "\"" <> s <> "\""
+
+--------------------------------------------------------------------------------
+
+type GraphVizAttr = Stylesheet.Key /\ String
+
+fromAttr :: Stylesheet.Attr -> List GraphVizAttr
+fromAttr (k /\ v) = case k, v of
+  "shape"     , s -> pure $ "shape"      /\ fromShape s
+  "background", c -> (pure $ "fillcolor" /\ fromColor c)
+                  <> (pure $ "style"     /\ "filled")
+  _           , s -> mempty
+  where
+    fromColor = identity
+    fromShape = identity

@@ -8,11 +8,11 @@ import Text.Parsing.Parser.Combinators
 import Text.Parsing.Parser.String
 
 import Language.Grasp.Parser.Util
-import Language.Grasp.Stylesheet.AST (Selector, Attr, Key, Val)
+import Language.Grasp.Stylesheet.AST (Selector, SelectorElem(..), Attr, Key, Val)
 
 selectorWithAttrs :: Parser String (Selector /\ List Attr)
 selectorWithAttrs = do
-  sel <- selector
+  sel <- (pure <<< SNode) <$> word
   _   <- string "{" `inside` spaces
   as  <- attrs
   _   <- string "}" `inside` spaces
@@ -35,9 +35,6 @@ key = word
 
 val :: Parser String Val
 val = word
-
-selector :: Parser String Selector
-selector = word
 
 word = someOf $ isAlphaNum || (_ == '_')
 

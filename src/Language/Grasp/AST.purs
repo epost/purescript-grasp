@@ -40,14 +40,3 @@ instance gelem1Eq :: Eq GElem1 where
 instance gelem1Show :: Show GElem1 where
   show (GNode1 x) = "(GNode1 " <> show x <> ")"
   show (GEdge1 x) = "(GEdge1 " <> show x <> ")"
-
---------------------------------------------------------------------------------
-
-type NodeStyleRec =
-  { color       :: String
-  }
-
-type EdgeStyleRec =
-  { color      :: String
-  , arrowStyle :: String -- nodes don't have this
-  }
