@@ -20,6 +20,7 @@ import Test.Spec.Runner           (run)
 import Test.Spec.Assertions       (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Test.Language.Grasp.DSL
+import Test.Language.Grasp.Stylesheet as Stylesheet
 
 main :: _
 main = run [consoleReporter] do
@@ -76,6 +77,8 @@ main = run [consoleReporter] do
          "actor \"user\"\n" <>
          "\"user\" -> \"browser\": login: Credentials\n" <>
          "\"browser\" -> \"z\"\n@enduml")
+
+  Stylesheet.spec
 
 styleEnv :: Array (String /\ NodeStyleRec) -> String -> Maybe NodeStyleRec
 styleEnv = flip Map.lookup <<< Map.fromFoldable
