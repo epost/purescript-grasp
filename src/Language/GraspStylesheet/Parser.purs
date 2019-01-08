@@ -10,6 +10,10 @@ import Text.Parsing.Parser.String
 import Language.Grasp.Parser.Util
 import Language.Grasp.Stylesheet.AST (Selector, SelectorElem(..), Attr, Key, Val)
 
+-- TODO sepBy spaces? hmm...
+stylesheet =
+  (selectorWithAttrs `inside` spaces) `sepBy` spaces
+
 selectorWithAttrs :: Parser String (Selector /\ List Attr)
 selectorWithAttrs = do
   sel <- (pure <<< SNode) <$> word
@@ -19,7 +23,7 @@ selectorWithAttrs = do
   pure (sel /\ as)
 
 attrs :: Parser String (List Attr)
-attrs = (attr `inside` spaces) `sepBy` (semicolon `inside` spaces)
+attrs = (attr `inside` spaces) `sepEndBy` (semicolon `inside` spaces)
 
 attr :: Parser String (Key /\ Val)
 attr = do

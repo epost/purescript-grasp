@@ -84,6 +84,7 @@ npm run test
 
 Bundle:
 #+BEGIN_SRC bash
+npm run build
 npm run bundle
 #+END_SRC
 

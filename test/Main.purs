@@ -15,7 +15,7 @@ import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML
 import Language.Grasp.Parser as Parser
 import Language.Grasp.Stylesheet.AST as Stylesheet
-import Language.Grasp.Stylesheet.AST (SelectorElem(..))
+import Language.Grasp.Stylesheet.AST (Selector, SelectorElem(..))
 import Text.Parsing.Parser (runParser)
 import Text.Parsing.Parser.String (satisfy)
 import Test.Spec                  (describe, pending, it)
@@ -63,7 +63,7 @@ main = run [consoleReporter] do
 
     it "should produce correct GraphViz output for styled graph" $ GraphViz.digraph
       [n "x", "x" ~~~> "y", "y" ~~~> "z"]
-      (styleEnv [SNode "x" /\ ["background" /\ "red"]])
+      (styleEnv [(pure $ SNode "x") /\ ["background" /\ "red"]])
       `shouldEqual`
       "digraph {\n  \"x\" [fillcolor=\"red\"; style=\"filled\"]\n  \"x\"->\"y\"\n  \"y\"->\"z\"\n}"
 
@@ -84,7 +84,7 @@ main = run [consoleReporter] do
   Stylesheet.spec
   Ex.experiments
 
-styleEnv :: Array (SelectorElem /\ Array Stylesheet.Attr) -> SelectorElem -> Maybe Stylesheet.Attrs
+styleEnv :: Array (Selector /\ Array Stylesheet.Attr) -> Selector -> Maybe Stylesheet.Attrs
 styleEnv = flip Map.lookup <<< Map.fromFoldable <<< map (map List.fromFoldable)
 
 itParses str p exp = it ("should parse: \"" <> str <> "\" as " <> show exp) $ (runParser str p) `shouldParseTo` exp

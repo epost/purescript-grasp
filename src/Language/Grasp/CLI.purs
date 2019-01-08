@@ -1,7 +1,6 @@
+-- | Functions for invoking Grasp via JavaScript and the command line.
 module Language.Grasp.CLI
   ( compile
-  , toGraphViz
-  , toPlantUML
   ) where
 
 import Prelude
@@ -14,9 +13,9 @@ import Language.Grasp.Generator.PlantUML as PlantUML
 import Language.Grasp.Parser as Parser
 import Text.Parsing.Parser (runParser, ParseError)
 
-compile :: String -> String -> String
-compile outputFormatOpt graspSrc =
-  Grasp.compile outputFormat graspSrc
+compile :: String -> String -> String -> String
+compile outputFormatOpt graspSrc stylesheetSrc  =
+  Grasp.compileWithStylesheet outputFormat graspSrc stylesheetSrc
   where
     defaultOutputFormat = GraphVizDigraph
     outputFormat = fromMaybe defaultOutputFormat $ parseOutputFormatOpt outputFormatOpt
@@ -26,9 +25,3 @@ parseOutputFormatOpt = case _ of
   "-g" -> Just $ GraphVizDigraph
   "-p" -> Just $ PlantUMLSequenceDiagram
   _    -> Nothing
-
-toGraphViz :: String -> String
-toGraphViz graspSrc = Grasp.compile GraphVizDigraph graspSrc
-
-toPlantUML :: String -> String
-toPlantUML graspSrc = Grasp.compile PlantUMLSequenceDiagram graspSrc

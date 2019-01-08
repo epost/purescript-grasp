@@ -35,7 +35,7 @@ fmtNode styler (Node (label /\ typ)) =
     Just _             -> Nothing
     Nothing            -> Nothing
   where
-    style = foldMap fmtNodeStyle (styler (SNode label))
+    style = foldMap fmtNodeStyle (styler (pure $ SNode label))
 
 fmtEdge :: Styler -> Edge -> String
 fmtEdge styler (Edge lMaybe (Node (label1 /\ _)) (Node (label2 /\ _))) =

@@ -23,7 +23,7 @@ fmtNode :: Styler -> Node -> String
 fmtNode styler (Node (label /\ typ)) =
   quote label <> style
   where
-    style = foldMap (append " " <<< fmtNodeStyle) (styler (SNode label))
+    style = foldMap (append " " <<< fmtNodeStyle) (styler (pure $ SNode label))
 
 fmtEdge :: Styler -> Edge -> String
 fmtEdge styler (Edge lMaybe (Node lt1) (Node (lt2))) =

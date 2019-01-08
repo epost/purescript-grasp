@@ -20,18 +20,20 @@
       </div>
       <div class="columns">
         <div id="input-container" class="column">
-          <textarea id="input">
+          <textarea id="input-grasp">
           </textarea>
         </div>
         <div id="output-container" class="column">
-          <pre id="output" />
+          <pre id="output-graphviz-source" />
         </div>
       </div>
       <div class="columns">
         <div class="column">
+          <textarea id="input-stylesheet">
+          </textarea>
         </div>
-        <div id="outputVisualContainer" class="column">
-          <div id="outputVisual" class="">
+        <div id="output-graphviz-rendered-container" class="column">
+          <div id="output-graphviz-rendered" class="">
           </div>
         </div>
       </div>
@@ -63,30 +65,46 @@
         "y11->z11\n" +
         "x12; x12->y12 ; y12->z12\n";
 
-      var inputElem = document.getElementById('input')
-      var outputElem = document.getElementById('output')
-      var outputVisualElem = document.getElementById('outputVisual')
+      var stylesheetSrc0 = "x11 { background: orange; }\nx12 { background: yellow; }\n";
 
-      inputElem.value = input0;
+      var graspInputElem = document.getElementById('input-grasp')
+      var stylesheetInputElem = document.getElementById('input-stylesheet')
+      var graphVizSourceElem = document.getElementById('output-graphviz-source')
+      var graphVizRenderedElem = document.getElementById('output-graphviz-rendered')
 
-      var input = inputElem.value.trim()
-      console.log('input =', input)
-      var output = Grasp.CLI.compile('-g')(input)
-      console.log('output =', output)
-      outputElem.innerHTML = output
-
-      // render viz.js, see using https://github.com/mdaines/viz.js/wiki/Usage
       var viz = new Viz()
-      viz.renderSVGElement(output)
-      .then(function(element) {
-        element.setAttribute('width', '') // respect mah authoritay!
-        element.setAttribute('height', '')
-        outputVisualElem.appendChild(element)
-      })
-      .catch(error => {
-        viz = new Viz()
-        console.error(error)
-      })
+
+      function compile () {
+        var graspSrc = graspInputElem.value.trim()
+        var stylesheetSrc = stylesheetInputElem.value.trim()
+        console.log('graspSrc =', graspSrc)
+        console.log('stylesheet =', stylesheetSrc)
+        var output = Grasp.CLI.compile('-g')(graspSrc)(stylesheetSrc)
+        console.log('output =', output)
+        graphVizSourceElem.innerHTML = output
+
+        // render using viz.js, see using https://github.com/mdaines/viz.js/wiki/Usage
+        viz.renderSVGElement(output).then(function (svgElem) {
+          svgElem.setAttribute('width', '') // respect mah authoritay!
+          svgElem.setAttribute('height', '')
+
+          // update
+          graphVizRenderedElem.innerHTML = ''
+          graphVizRenderedElem.appendChild(svgElem)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+      }
+
+      graspInputElem.value = input0
+      stylesheetInputElem.value = stylesheetSrc0
+      compile()
+
+      graspInputElem.addEventListener('change', compile)
+      graspInputElem.addEventListener('keyup', compile)
+      stylesheetInputElem.addEventListener('change', compile)
+      stylesheetInputElem.addEventListener('keyup', compile)
     </script>
   </body>
 </html>
