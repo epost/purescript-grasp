@@ -20,8 +20,9 @@ sequenceDiagram g styler =
     maybeNewline = maybe "" (_ <> "\n")
 
 fmtGElem1 :: Styler -> GElem1 -> Maybe String
-fmtGElem1 styler (GNode1 n) =       fmtNode styler n
-fmtGElem1 styler (GEdge1 e) = Just (fmtEdge styler e)
+fmtGElem1 styler (GNode1 n)      =       fmtNode styler n
+fmtGElem1 styler (GEdge1 e)      = Just (fmtEdge styler e)
+fmtGElem1 styler (GMultiEdge1 e) = Just "TODO MultiEdge case"
 
 fmtNode :: Styler -> Node -> Maybe String
 fmtNode styler (Node (label /\ typ)) =

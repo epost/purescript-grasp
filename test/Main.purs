@@ -5,12 +5,12 @@ import Effect (Effect)
 import Effect.Class.Console (log)
 import Data.Either (Either(..))
 import Data.List as List
-import Data.List (many, fromFoldable)
+import Data.List (many, fromFoldable, List(..))
 import Data.Maybe (Maybe(..))
 import Data.Map as Map
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested (type (/\), (/\))
-import Language.Grasp.AST (Node(..), Edge(..), GElem1(..), Label, Type, LabelAndType)
+import Language.Grasp.AST (Node(..), Edge(..), MultiEdge(..), GElem1(..), Label, Type, LabelAndType)
 import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML
 import Language.Grasp.Parser as Parser
@@ -50,6 +50,9 @@ main = run [consoleReporter] do
     itParses "x:A -f:AtoB-> y:B"         Parser.edge $ Edge (Just ("f" : Just "AtoB")) (node "x" ::: Just "A") (node "y" ::: Just "B")
     itParses "x : A - f : AtoB -> y : B" Parser.edge $ Edge (Just ("f" : Just "AtoB")) (node "x" ::: Just "A") (node "y" ::: Just "B")
 
+  describe "multiEdge parsers" do
+    itParses "x,y->z"     Parser.multiEdge $ MultiEdge Nothing      (Cons (node "x") (Cons (node "y") Nil))
+                                                                                     (Cons (node "z") Nil)
   describe "graph parsers" do
     itParses "x;x->y;y->z"    Parser.graph1 $ fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
     itParses "x\nx->y\ny->z"  Parser.graph1 $ fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
