@@ -19,10 +19,12 @@ import Language.Grasp.Stylesheet.AST (Selector, SelectorElem(..))
 import Text.Parsing.Parser (runParser)
 import Text.Parsing.Parser.String (satisfy)
 import Test.Spec                  (describe, pending, it)
+import Test.Spec.Console          (write)
 import Test.Spec.Runner           (run)
 import Test.Spec.Assertions       (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Test.Language.Grasp.DSL
+import Test.Language.Grasp.Experiment as Ex
 import Test.Language.Grasp.Stylesheet as Stylesheet
 
 main :: _
