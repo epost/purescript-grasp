@@ -13,7 +13,7 @@ import Text.Parsing.Parser (Parser)
 import Text.Parsing.Parser.Combinators
 import Text.Parsing.Parser.String
 
-import Language.Grasp.AST (Node(..), Edge(..), MultiEdge(..), Label, Type, LabelAndType, GElem1(..))
+import Language.Grasp.AST (Node(..), MultiEdge(..), Label, Type, LabelAndType, GElem1(..))
 import Language.Grasp.Parser.Util
 
 import Debug.Trace (spy)
@@ -42,8 +42,6 @@ multiEdge = do
   _    <- hspaces
   dest <- nodes
   pure $ MultiEdge lbl src dest
-
---------------------------------------------------------------------------------
 
 arrow :: Parser String (Maybe LabelAndType)
 arrow = Nothing <$                                                  string "->"
