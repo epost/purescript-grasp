@@ -88,6 +88,7 @@
           graphVizRenderedElem.appendChild(svgElem)
         })
         .catch(error => {
+          graphVizRenderedElem.innerHTML = ''
           console.error(error)
         })
       }
