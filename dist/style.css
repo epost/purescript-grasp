@@ -6,24 +6,25 @@ a, a:visited {
 }
 pre {
   background: #eee;
+  color: #444;
   margin: 0;
 }
 .title {
   display: inline-block;
+  color: #444;
 }
 #grid {
   width: 100%;
   display: table;
 }
 textarea {
-  width: 100%;
+  width: 99%;
+  border: 1px solid #ddd;
+  font-family: monospace;
+  color: #444;
 }
-#input-grasp, #output-graphviz-source {
+#input-grasp {
   min-height: 400px;
-}
-#output-graphviz-rendered-container {
-  overflow: hidden;
-  overflow: scroll;
 }
 #output-graphviz-rendered {
   max-width: 50%;
@@ -43,6 +44,6 @@ textarea {
 }
 .column {
   display: table-cell;
-  vertical-align:top;
-  padding:0;
+  vertical-align: top;
+  padding: 2px;
 }
