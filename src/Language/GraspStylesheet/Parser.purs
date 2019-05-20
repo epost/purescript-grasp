@@ -8,9 +8,10 @@ import Text.Parsing.Parser.Combinators
 import Text.Parsing.Parser.String
 
 import Language.Grasp.Parser.Util
-import Language.Grasp.Stylesheet.AST (Selector, SelectorElem(..), Attr, Key, Val)
+import Language.Grasp.Stylesheet.AST (Selector, SelectorElem(..), Stylesheet, Attr, Key, Val)
 
 -- TODO sepBy spaces? hmm...
+stylesheet :: Parser String Stylesheet
 stylesheet =
   (selectorWithAttrs `inside` spaces) `sepBy` spaces
 

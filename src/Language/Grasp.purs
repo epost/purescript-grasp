@@ -12,6 +12,7 @@ import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML
 import Language.Grasp.Parser as Parser
 import Language.Grasp.Stylesheet.Parser as SSParser
+import Language.Grasp.Stylesheet.AST (Stylesheet)
 import Text.Parsing.Parser (runParser, ParseError)
 
 import Debug.Trace
@@ -44,6 +45,6 @@ compileWithStylesheet outputFormat graspSrc stylesheetSrc =
     -- TODO don't fail silently in case of stylesheet parse error
     defaultStylesheet = mempty
 
-compileStylesheet :: String -> _
+compileStylesheet :: String -> Either ParseError Stylesheet
 compileStylesheet ssText =
   runParser ssText SSParser.stylesheet

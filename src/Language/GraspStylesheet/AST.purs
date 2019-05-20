@@ -1,16 +1,28 @@
+-- graph elem kinds:
+--
+-- graph
+-- edge
+-- node
+-- type?
+-- arg? param?
+-- subgraph?
+-- arrow?
+
 module Language.Grasp.Stylesheet.AST where
 
 import Prelude
 
-import Data.Tuple (Tuple(..))
+import Data.Tuple.Nested (type (/\))
 import Data.List (List)
 import Language.Grasp.AST (Label)
+
+type Stylesheet = List (Selector /\ List Attr)
 
 type Key = String
 
 type Val = String
 
-type Attr = Tuple Key Val
+type Attr = Key /\ Val
 
 type Attrs = List Attr
 
