@@ -24,7 +24,6 @@ import Test.Spec.Runner           (run)
 import Test.Spec.Assertions       (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Test.Language.Grasp.DSL
-import Test.Language.Grasp.Experiment as Ex
 import Test.Language.Grasp.Stylesheet as Stylesheet
 
 main :: _
@@ -86,7 +85,6 @@ main = run [consoleReporter] do
          "\"browser\" -> \"z\"\n@enduml")
 
   Stylesheet.spec
-  Ex.experiments
 
 styleEnv :: Array (Selector /\ Array Stylesheet.Attr) -> Selector -> Maybe Stylesheet.Attrs
 styleEnv = flip Map.lookup <<< Map.fromFoldable <<< map (map List.fromFoldable)
