@@ -53,7 +53,9 @@ type GraphVizAttr = Stylesheet.Key /\ String
 
 fromAttr :: Stylesheet.Attr -> List GraphVizAttr
 fromAttr (k /\ v) = case k, v of
-  "shape"     , s -> pure $ "shape"      /\ fromShape s
+  "label"     , s -> (pure $ "label"     /\ s)
+  "xlabel"    , s -> (pure $ "xlabel"    /\ s)
+  "shape"     , s -> (pure $ "shape"     /\ fromShape s)
   "background", c -> (pure $ "fillcolor" /\ fromColor c)
                   <> (pure $ "style"     /\ "filled")
   _           , s -> mempty
