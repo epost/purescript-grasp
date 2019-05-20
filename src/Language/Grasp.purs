@@ -14,6 +14,8 @@ import Language.Grasp.Parser as Parser
 import Language.Grasp.Stylesheet.Parser as SSParser
 import Text.Parsing.Parser (runParser, ParseError)
 
+import Debug.Trace
+
 data OutputFormat
   = GraphVizDigraph
   | PlantUMLSequenceDiagram
@@ -23,8 +25,7 @@ compile outputFormat graspSrc =
   compileWithStylesheet outputFormat graspSrc ""
 
 compileWithStylesheet :: OutputFormat -> String -> String -> String
-compileWithStylesheet  outputFormat graspSrc stylesheetSrc =
-
+compileWithStylesheet outputFormat graspSrc stylesheetSrc =
   either (\err -> "Error: " <> show err) (\res -> res) generatedCode
   where
     generatedCode :: Either ParseError String
@@ -34,7 +35,7 @@ compileWithStylesheet  outputFormat graspSrc stylesheetSrc =
       GraphVizDigraph         -> GraphViz.digraph
       PlantUMLSequenceDiagram -> PlantUML.sequenceDiagram
 
-    graspAST = runParser graspSrc Parser.graph1
+    graspAST = spy "graspAST" $ runParser graspSrc Parser.graph1
 
     styler key = Map.lookup key stylesheet
 

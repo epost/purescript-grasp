@@ -92,10 +92,10 @@ npm run bundle
 
 - [X] no formatting, only structure
 - [ ] higher graphs (arrows between arrows)
-- [ ] comma syntax: ~a,b,c -> d, e~
+- [X] comma syntax: ~a,b,c -> d, e~
 - [X] type syntax? ~a:A - b:B -> c:C~
 - [X] function application syntax: ~x -> f(x) -> y~
-- [ ] ports (needed for string diagrams, among others)
+- [ ] ports (could be used for string diagrams, among others)
 - [ ] comments
 - [ ] transitive syntax? ~a -> b -> c -> d~
 - [ ] reverse and bidirectional arrows?

@@ -20,8 +20,8 @@ sequenceDiagram g styler =
     maybeNewline = maybe "" (_ <> "\n")
 
 fmtGElem1 :: Styler -> GElem1 -> Maybe String
-fmtGElem1 styler (GNode1 n) =       fmtNode styler n
-fmtGElem1 styler (GEdge1 e) = Just (fmtEdge styler e)
+fmtGElem1 styler (GNode1 n)      =       fmtNode styler n
+fmtGElem1 styler (GMultiEdge1 e) = Just "TODO MultiEdge case" -- Just (fmtEdge styler e)
 
 fmtNode :: Styler -> Node -> Maybe String
 fmtNode styler (Node (label /\ typ)) =
@@ -37,8 +37,12 @@ fmtNode styler (Node (label /\ typ)) =
   where
     style = foldMap fmtNodeStyle (styler (pure $ SNode label))
 
-fmtEdge :: Styler -> Edge -> String
-fmtEdge styler (Edge lMaybe (Node (label1 /\ _)) (Node (label2 /\ _))) =
+fmtMultiEdge :: Styler -> MultiEdge -> String
+fmtMultiEdge styler (MultiEdge lMaybe srcNodes targetNodes) =
+  intercalate "\n" (fmtEdge styler lMaybe <$> srcNodes <*> targetNodes)
+
+fmtEdge :: Styler -> Maybe LabelAndType -> _ -> _ -> String
+fmtEdge styler lMaybe (Node (label1 /\ _)) (Node (label2 /\ _)) =
   quote label1 <> " -> " <> quote label2 <> maybe "" (\(l /\ t) -> ": " <> l <> fmtType t) lMaybe
   where
     fmtType = maybe "" (\t -> ": " <> t)
