@@ -1,11 +1,10 @@
 module Language.Grasp.Generator.GraphViz where
 
 import Prelude
-import Data.List (catMaybes, mapMaybe, List)
+import Data.List (List)
 import Data.Foldable (class Foldable, intercalate, foldMap)
 import Data.Map as Map
-import Data.Map (Map(..))
-import Data.Maybe (Maybe(..), maybe)
+import Data.Maybe (Maybe(..))
 import Data.Tuple.Nested (type (/\), (/\))
 import Language.Grasp.AST
 import Language.Grasp.Generator

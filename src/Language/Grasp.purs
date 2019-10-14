@@ -6,7 +6,6 @@ module Language.Grasp
 
 import Prelude
 import Data.Map as Map
-import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Either (Either(..), either)
 import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML

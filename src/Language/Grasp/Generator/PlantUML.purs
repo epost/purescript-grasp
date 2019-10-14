@@ -1,11 +1,8 @@
 module Language.Grasp.Generator.PlantUML where
 
 import Prelude
-import Data.Array as Array
 import Data.Array (filter)
 import Data.Foldable (class Foldable, intercalate, foldMap)
-import Data.Map as Map
-import Data.Map (Map(..))
 import Data.Maybe (Maybe(..), maybe)
 import Data.Tuple.Nested (type (/\),(/\))
 import Language.Grasp.AST
@@ -41,7 +38,7 @@ fmtMultiEdge :: Styler -> MultiEdge -> String
 fmtMultiEdge styler (MultiEdge lMaybe srcNodes targetNodes) =
   intercalate "\n" (fmtEdge styler lMaybe <$> srcNodes <*> targetNodes)
 
-fmtEdge :: Styler -> Maybe LabelAndType -> _ -> _ -> String
+fmtEdge :: Styler -> Maybe LabelAndType -> Node -> Node -> String
 fmtEdge styler lMaybe (Node (label1 /\ _)) (Node (label2 /\ _)) =
   quote label1 <> " -> " <> quote label2 <> maybe "" (\(l /\ t) -> ": " <> l <> fmtType t) lMaybe
   where

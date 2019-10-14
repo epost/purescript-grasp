@@ -5,13 +5,8 @@ module Language.Grasp.CLI
 
 import Prelude
 import Data.Maybe (Maybe(..), fromMaybe)
-import Data.Either (Either(..), either)
 import Language.Grasp as Grasp
 import Language.Grasp (OutputFormat(..))
-import Language.Grasp.Generator.GraphViz as GraphViz
-import Language.Grasp.Generator.PlantUML as PlantUML
-import Language.Grasp.Parser as Parser
-import Text.Parsing.Parser (runParser, ParseError)
 
 compile :: String -> String -> String -> String
 compile outputFormatOpt graspSrc stylesheetSrc  =

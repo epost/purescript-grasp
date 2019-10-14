@@ -11,13 +11,14 @@ Grasp, short for GRAph Specification Processor, allows you to:
 
 Some points of comparison to give you an idea:
 
-|                                     | grasp                        | GraphViz             |
-|-------------------------------------+------------------------------+----------------------|
-| syntax                              | concise                      | a bit faffy at times |
-| semantics                           | anything                     | visual               |
-| nodes and edges have                | optional type annotations    | visual markup        |
-| export to                           | anything; see export formats | graphics formats     |
-| higher graphs (edges between edges) | TODO                         | no                   |
+|                                     | grasp                        | GraphViz             | mermaid      |
+|-------------------------------------+------------------------------+----------------------+--------------|
+| syntax                              | concise                      | a bit faffy at times |              |
+| semantics                           | anything                     | visual               |              |
+| nodes and edges have                | optional type annotations    | visual markup        |              |
+| export to                           | anything; see export formats | graphics formats     |              |
+| higher graphs (edges between edges) | TODO                         | no                   |              |
+| styling rules                       | in separate CSS-like file    | part of graph        | in same file |
 
 * Examples
 
