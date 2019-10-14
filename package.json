@@ -7,11 +7,12 @@
     "test": "test"
   },
   "scripts": {
-    "start": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp run",
-    "build": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp build",
-    "test": "PATH=node_modules/.bin:$PATH node_modules/.bin/pulp test",
-    "ex": "PATH=node_modules/.bin:$PATH make example/test1.png",
-    "bundle": "PATH=node_modules/.bin:$PATH browserify browser/grasp.js > dist/grasp.js"
+    "postinstall": "spago install",
+    "start": "spago run",
+    "build": "spago build",
+    "test": "spago test",
+    "ex": "make example/test1.png",
+    "bundle": "browserify browser/grasp.js > dist/grasp.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +29,8 @@
     "viz.js": "^2.1.2"
   },
   "devDependencies": {
-    "bower": "^1.8.8",
-    "pulp": "11.0.2",
-    "purescript": "^0.12.1"
+    "browserify": "^16.5.0",
+    "purescript": "^0.13.3",
+    "spago": "^0.9.0"
   }
 }

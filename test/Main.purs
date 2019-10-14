@@ -1,6 +1,7 @@
 module Test.Main where
 
 import Prelude
+import Effect.Aff (Aff, launchAff)
 import Effect (Effect)
 import Effect.Class.Console (log)
 import Data.Either (Either(..))
@@ -20,14 +21,14 @@ import Text.Parsing.Parser (runParser)
 import Text.Parsing.Parser.String (satisfy)
 import Test.Spec                  (describe, pending, it)
 import Test.Spec.Console          (write)
-import Test.Spec.Runner           (run)
+import Test.Spec.Runner           (runSpec)
 import Test.Spec.Assertions       (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Test.Language.Grasp.DSL
 import Test.Language.Grasp.Stylesheet as Stylesheet
 
-main :: _
-main = run [consoleReporter] do
+main :: Effect _
+main = launchAff $ runSpec [consoleReporter] do
   describe "label parsers" do
     itParses "x"          Parser.labelAndType $ "x" : Nothing
     itParses "x:A"        Parser.labelAndType $ "x" : Just "A"
