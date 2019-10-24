@@ -12,31 +12,31 @@ type LabelAndType = Label /\ (Maybe Type)
 
 type Type = String
 
-newtype NodeF a = Node a
+data NodeF a = Node a
 type Node = NodeF LabelAndType
 
-data MultiEdgeF l s t = MultiEdge (Maybe l) (List (NodeF s)) (List (NodeF t))
-type MultiEdge        = MultiEdgeF LabelAndType LabelAndType LabelAndType
+data MultiEdgeF f l s t = MultiEdge (Maybe l) (f (NodeF s)) (f (NodeF t))
+type MultiEdge          = MultiEdgeF List LabelAndType LabelAndType LabelAndType
 
 derive instance eqNodeF :: Eq a => Eq (NodeF a)
 
 instance showNodeF :: Show a => Show (NodeF a) where
   show (Node x) = "(NodeF " <> show x <> ")"
 
-instance showMultiEdgeF :: (Show l, Show s, Show t) => Show (MultiEdgeF l s t) where
+instance showMultiEdgeF :: (Show l, Show s, Show t) => Show (MultiEdgeF List l s t) where
   show (MultiEdge l s t) = "(MultiEdge " <> show l <> " " <> show s <> " " <> show t <> ")"
 
-derive instance eqMultiEdgeF :: (Eq l, Eq s, Eq t) => Eq (MultiEdgeF l s t)
+derive instance eqMultiEdgeF :: (Eq l, Eq s, Eq t) => Eq (MultiEdgeF List l s t)
 
-unNode :: forall a. NodeF a -> a
+unNode :: forall f a. NodeF a -> a
 unNode (Node x) = x
 
 --------------------------------------------------------------------------------
 
--- | A graph can be be represented by `List GElem1`.
-data GElem1F a = GNode1 (NodeF a)
-               | GMultiEdge1 (MultiEdgeF a a a)
+data GElem1F a = GNode1      (NodeF a)
+               | GMultiEdge1 (MultiEdgeF List a a a)
 
+-- | A graph can be be represented by `List GElem1`.
 type GElem1 = GElem1F LabelAndType
 
 derive instance eqGElem1 :: Eq a => Eq (GElem1F a)
