@@ -11,7 +11,7 @@ import Data.Maybe (Maybe(..))
 import Data.Map as Map
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested (type (/\), (/\))
-import Language.Grasp.AST (Node(..), MultiEdge(..), GElem1(..), Label, Type, LabelAndType)
+import Language.Grasp.AST (Node(..), MultiEdge(..), MultiEdgeF(..), GElem1(..), Label, Type, LabelAndType)
 import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML
 import Language.Grasp.Parser as Parser

@@ -7,7 +7,7 @@ import Data.List (many, fromFoldable)
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested (type (/\), (/\))
-import Language.Grasp.AST (Node(..), MultiEdge(..), GElem1(..), Label, Type, LabelAndType)
+import Language.Grasp.AST (NodeF(..), Node(..), MultiEdge(..), MultiEdgeF(..), GElem1(..), GElem1F(..), Label, Type, LabelAndType)
 
 -- | Construct an untyped list of nodes.
 node  l =        Node (l : Nothing)
