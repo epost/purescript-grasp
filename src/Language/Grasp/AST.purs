@@ -19,7 +19,7 @@ type MultiEdge = MultiEdgeF List LabelAndType LabelAndType LabelAndType
 
 -- | Graph element type. A graph is a bunch of nodes and edges, and can be be
 -- | represented as a `List GElem1` for example.
-type GElem1 = GElem1F LabelAndType
+type GElem1 = GElem1F List LabelAndType
 
 --------------------------------------------------------------------------------
 
@@ -45,11 +45,11 @@ derive instance eqMultiEdgeF :: (Eq l, Eq s, Eq t) => Eq (MultiEdgeF List l s t)
 --------------------------------------------------------------------------------
 
 -- | Generic graph element type.
-data GElem1F a = GNode1      (NodeF a)
-               | GMultiEdge1 (MultiEdgeF List a a a)
+data GElem1F f a = GNode1      (NodeF a)
+                 | GMultiEdge1 (MultiEdgeF f a a a)
 
-derive instance eqGElem1 :: Eq a => Eq (GElem1F a)
+derive instance eqGElem1 :: (Eq a, Eq (MultiEdgeF f a a a)) => Eq (GElem1F f a)
 
-instance showGElem1 :: Show a => Show (GElem1F a) where
+instance showGElem1 :: (Show a, Show (MultiEdgeF f a a a)) => Show (GElem1F f a) where
   show (GNode1 x)      = "(GNode1 "      <> show x <> ")"
   show (GMultiEdge1 x) = "(GMultiEdge1 " <> show x <> ")"
