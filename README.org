@@ -47,6 +47,17 @@ x -> f(x)
 x:A -f(x)-> y:B
 #+END_EXAMPLE
 
+Note that we only describe graph *structure* above, along with various labels and annotations. Grasp provides a separate CSS-like styling language:
+
+#+BEGIN_EXAMPLE
+x11 { shape: point; xlabel: x11 }
+x12 { shape: point }
+y11 { shape: point }
+f11 { shape: box; label: f; background: purple; }
+#+END_EXAMPLE
+
+So, like HTML and CSS, Grasp and its styling language allow you to decouple the styling from the structure. This has many advantages over the coupled approach that something like GraphViz allows. Although the styling language is mostly at a proof of concept stage for now, it does work, and it does allow you to specify some useful styling attributes.
+
 * Export formats
 
 Work on implementing these is ongoing:
@@ -91,11 +102,13 @@ npm run bundle
 
 * Features and roadmap
 
-- [X] no formatting, only structure
-- [ ] higher graphs (arrows between arrows)
-- [X] comma syntax: ~a,b,c -> d, e~
+- [X] graph *structure* markup language (no styling is a feature!)
+- [X] separate stylesheets
+  - [X] CSS-like stylesheets (toy implementation for now)
+- [X] comma syntax: ~a,b,c -> d, e~ for hypergraphs and / or multigraphs
 - [X] type syntax? ~a:A - b:B -> c:C~
 - [X] function application syntax: ~x -> f(x) -> y~
+- [ ] higher graphs (arrows between arrows)
 - [ ] ports (could be used for string diagrams, among others)
 - [ ] comments
 - [ ] transitive syntax? ~a -> b -> c -> d~
@@ -106,3 +119,4 @@ npm run bundle
 - [ ] question mark as part of identifiers?
 - [ ] node / edge ids? maybe using hash mark?
 - [ ] allow references: graph transformations, styling, comments, legend, etc
+- [ ] output ranges of parsed symbols, i.e. start and end line and column numbers
