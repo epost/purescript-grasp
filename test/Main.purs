@@ -11,7 +11,7 @@ import Data.Maybe (Maybe(..))
 import Data.Map as Map
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested (type (/\), (/\))
-import Language.Grasp.AST (Node(..), MultiEdge(..), MultiEdgeF(..), GElem1(..), Label, Type, LabelAndType)
+import Language.Grasp.AST (Node(..), HyperEdge(..), HyperEdgeF(..), GElem1(..), Label, Type, LabelAndType)
 import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML
 import Language.Grasp.Parser as Parser
@@ -39,18 +39,18 @@ main = launchAff $ runSpec [consoleReporter] do
     itParses "abc,def"    Parser.node $ node "abc"
 
   describe "edge parsers" do
-    itParses "x->y"                      Parser.multiEdge $ MultiEdge Nothing                    (nodes "x")              (nodes "y")
-    itParses "x -> y"                    Parser.multiEdge $ MultiEdge Nothing                    (nodes "x")              (nodes "y")
-    itParses "x-f->y"                    Parser.multiEdge $ MultiEdge (Just ("f" : Nothing))     (nodes "x")              (nodes "y")
-    itParses "x -f-> y"                  Parser.multiEdge $ MultiEdge (Just ("f" : Nothing))     (nodes "x")              (nodes "y")
-    itParses "x - f -> y"                Parser.multiEdge $ MultiEdge (Just ("f" : Nothing))     (nodes "x")              (nodes "y")
+    itParses "x->y"                      Parser.hyperEdge $ HyperEdge Nothing                    (nodes "x")              (nodes "y")
+    itParses "x -> y"                    Parser.hyperEdge $ HyperEdge Nothing                    (nodes "x")              (nodes "y")
+    itParses "x-f->y"                    Parser.hyperEdge $ HyperEdge (Just ("f" : Nothing))     (nodes "x")              (nodes "y")
+    itParses "x -f-> y"                  Parser.hyperEdge $ HyperEdge (Just ("f" : Nothing))     (nodes "x")              (nodes "y")
+    itParses "x - f -> y"                Parser.hyperEdge $ HyperEdge (Just ("f" : Nothing))     (nodes "x")              (nodes "y")
 
-    itParses "x:A -> y:B"                Parser.multiEdge $ MultiEdge Nothing                    (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
-    itParses "x : A -> y : B"            Parser.multiEdge $ MultiEdge Nothing                    (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
-    itParses "x:A -f:AtoB-> y:B"         Parser.multiEdge $ MultiEdge (Just ("f" : Just "AtoB")) (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
-    itParses "x : A - f : AtoB -> y : B" Parser.multiEdge $ MultiEdge (Just ("f" : Just "AtoB")) (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
+    itParses "x:A -> y:B"                Parser.hyperEdge $ HyperEdge Nothing                    (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
+    itParses "x : A -> y : B"            Parser.hyperEdge $ HyperEdge Nothing                    (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
+    itParses "x:A -f:AtoB-> y:B"         Parser.hyperEdge $ HyperEdge (Just ("f" : Just "AtoB")) (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
+    itParses "x : A - f : AtoB -> y : B" Parser.hyperEdge $ HyperEdge (Just ("f" : Just "AtoB")) (nodes "x" ::: Just "A") (nodes "y" ::: Just "B")
 
-    itParses "x,y->z"                    Parser.multiEdge $ MultiEdge Nothing      (Cons (node "x") (Cons (node "y") Nil))
+    itParses "x,y->z"                    Parser.hyperEdge $ HyperEdge Nothing      (Cons (node "x") (Cons (node "y") Nil))
                                                                                                     (Cons (node "z") Nil)
   describe "graph parsers" do
     itParses "x;x->y;y->z"    Parser.graph1 $ fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]

@@ -16,7 +16,7 @@ type Type = String
 
 type Node = NodeF LabelAndType
 
-type MultiEdge = MultiEdgeF List LabelAndType
+type HyperEdge = HyperEdgeF List LabelAndType
 
 -- | Graph element type. A graph is a bunch of nodes and edges, and can be be
 -- | represented as a `List GElem1` for example.
@@ -38,26 +38,26 @@ derive instance functorNodeF :: Functor NodeF
 
 --------------------------------------------------------------------------------
 
--- | A multi-edge, possibly labeled with type a, going from a's to a's.
-data MultiEdgeF f a = MultiEdge (Maybe a) (f (NodeF a)) (f (NodeF a))
+-- | A hyperedge, possibly labeled with type a, going from a's to a's.
+data HyperEdgeF f a = HyperEdge (Maybe a) (f (NodeF a)) (f (NodeF a))
 
-instance showMultiEdgeF :: (Show a, Show (f (NodeF a))) => Show (MultiEdgeF f a) where
-  show (MultiEdge l s t) = "(MultiEdge " <> show l <> " " <> show s <> " " <> show t <> ")"
+instance showHyperEdgeF :: (Show a, Show (f (NodeF a))) => Show (HyperEdgeF f a) where
+  show (HyperEdge l s t) = "(HyperEdge " <> show l <> " " <> show s <> " " <> show t <> ")"
 
-derive instance eqMultiEdgeF :: (Eq1 f, Eq a) => Eq (MultiEdgeF f a)
+derive instance eqHyperEdgeF :: (Eq1 f, Eq a) => Eq (HyperEdgeF f a)
 
-derive instance functorMultiEdgeF :: Functor f => Functor (MultiEdgeF f)
+derive instance functorHyperEdgeF :: Functor f => Functor (HyperEdgeF f)
 
 --------------------------------------------------------------------------------
 
 -- | Generic graph element type.
 data GElem1F f a = GNode1      (NodeF a)
-                 | GMultiEdge1 (MultiEdgeF f a)
+                 | GHyperEdge1 (HyperEdgeF f a)
 
-derive instance eqGElem1F :: (Eq a, Eq (MultiEdgeF f a)) => Eq (GElem1F f a)
+derive instance eqGElem1F :: (Eq a, Eq (HyperEdgeF f a)) => Eq (GElem1F f a)
 
 derive instance functorGElem1F :: Functor f => Functor (GElem1F f)
 
-instance showGElem1 :: (Show a, Show (MultiEdgeF f a)) => Show (GElem1F f a) where
+instance showGElem1 :: (Show a, Show (HyperEdgeF f a)) => Show (GElem1F f a) where
   show (GNode1 x)      = "(GNode1 "      <> show x <> ")"
-  show (GMultiEdge1 x) = "(GMultiEdge1 " <> show x <> ")"
+  show (GHyperEdge1 x) = "(GHyperEdge1 " <> show x <> ")"

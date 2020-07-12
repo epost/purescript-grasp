@@ -18,7 +18,7 @@ sequenceDiagram g styler =
 
 fmtGElem1 :: Styler -> GElem1 -> Maybe String
 fmtGElem1 styler (GNode1 n)      =       fmtNode styler n
-fmtGElem1 styler (GMultiEdge1 e) = Just "TODO MultiEdge case" -- Just (fmtEdge styler e)
+fmtGElem1 styler (GHyperEdge1 e) = Just "TODO HyperEdge case" -- Just (fmtEdge styler e)
 
 fmtNode :: Styler -> Node -> Maybe String
 fmtNode styler (Node (label /\ typ)) =
@@ -34,8 +34,8 @@ fmtNode styler (Node (label /\ typ)) =
   where
     style = foldMap fmtNodeStyle (styler (pure $ SNode label))
 
-fmtMultiEdge :: Styler -> MultiEdge -> String
-fmtMultiEdge styler (MultiEdge lMaybe srcNodes targetNodes) =
+fmtHyperEdge :: Styler -> HyperEdge -> String
+fmtHyperEdge styler (HyperEdge lMaybe srcNodes targetNodes) =
   intercalate "\n" (fmtEdge styler lMaybe <$> srcNodes <*> targetNodes)
 
 fmtEdge :: Styler -> Maybe LabelAndType -> Node -> Node -> String

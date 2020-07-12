@@ -7,7 +7,7 @@ import Data.List (many, fromFoldable)
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested (type (/\), (/\))
-import Language.Grasp.AST (NodeF(..), Node(..), MultiEdge(..), MultiEdgeF(..), GElem1(..), GElem1F(..), Label, Type, LabelAndType)
+import Language.Grasp.AST (NodeF(..), Node(..), HyperEdge(..), HyperEdgeF(..), GElem1(..), GElem1F(..), Label, Type, LabelAndType)
 
 -- | Construct an untyped list of nodes.
 node  l =        Node (l : Nothing)
@@ -27,10 +27,10 @@ n  = n2
 nt :: String -> String -> GElem1
 nt l t = GNode1 $ Node (l : Just t)
 
-to1        =               MultiEdge Nothing
-to2 x y    =               MultiEdge Nothing   (nodes x) (nodes y)
-to3 x y    = GMultiEdge1 $ MultiEdge Nothing   (nodes x) (nodes y)
-to4 x y lt = GMultiEdge1 $ MultiEdge (Just lt) (nodes x) (nodes y)
+to1        =               HyperEdge Nothing
+to2 x y    =               HyperEdge Nothing   (nodes x) (nodes y)
+to3 x y    = GHyperEdge1 $ HyperEdge Nothing   (nodes x) (nodes y)
+to4 x y lt = GHyperEdge1 $ HyperEdge (Just lt) (nodes x) (nodes y)
 
 infixl 4 to1 as ~>
 infixl 4 to2 as ~~>

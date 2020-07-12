@@ -13,7 +13,7 @@ import Text.Parsing.Parser (Parser)
 import Text.Parsing.Parser.Combinators
 import Text.Parsing.Parser.String
 
-import Language.Grasp.AST (NodeF (..), Node, MultiEdge(..), MultiEdgeF(..), Label, Type, LabelAndType, GElem1(..), GElem1F(..))
+import Language.Grasp.AST (NodeF (..), Node, HyperEdge(..), HyperEdgeF(..), Label, Type, LabelAndType, GElem1(..), GElem1F(..))
 import Language.Grasp.Parser.Util
 
 import Debug.Trace (spy)
@@ -25,7 +25,7 @@ graph1 = (gElem1 `inside` hspaces) `sepEndBy` (semicolon <|> newlines)
     semicolon = const unit <$> char ';'
 
 gElem1 :: Parser String GElem1
-gElem1 = GMultiEdge1 <$> try multiEdge
+gElem1 = GHyperEdge1 <$> try hyperEdge
      <|> GNode1      <$>     node
 
 node :: Parser String Node
@@ -34,14 +34,14 @@ node = Node <$> labelAndType
 nodes :: Parser String (List Node)
 nodes = (node `inside` hspaces) `sepEndBy1` char ','
 
-multiEdge :: Parser String MultiEdge
-multiEdge = do
+hyperEdge :: Parser String HyperEdge
+hyperEdge = do
   src  <- nodes
   _    <- hspaces
   lbl  <- arrow
   _    <- hspaces
   dest <- nodes
-  pure $ MultiEdge lbl src dest
+  pure $ HyperEdge lbl src dest
 
 arrow :: Parser String (Maybe LabelAndType)
 arrow = Nothing <$                                                  string "->"

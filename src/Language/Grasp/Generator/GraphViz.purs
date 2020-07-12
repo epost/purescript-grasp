@@ -16,7 +16,7 @@ digraph g styler = "digraph {\n  " <> (intercalate "\n  " (fmtGElem1 styler <$> 
 
 fmtGElem1 :: Styler -> GElem1 -> String
 fmtGElem1 styler (GNode1 n)      = fmtNode styler n
-fmtGElem1 styler (GMultiEdge1 e) = fmtMultiEdge styler e
+fmtGElem1 styler (GHyperEdge1 e) = fmtHyperEdge styler e
 
 fmtNode :: Styler -> Node -> String
 fmtNode styler (Node (label /\ typ)) =
@@ -24,8 +24,8 @@ fmtNode styler (Node (label /\ typ)) =
   where
     style = foldMap (append " " <<< fmtNodeStyle) (styler (pure $ SNode label))
 
-fmtMultiEdge :: Styler -> MultiEdge -> String
-fmtMultiEdge styler (MultiEdge lMaybe srcNodes targetNodes) =
+fmtHyperEdge :: Styler -> HyperEdge -> String
+fmtHyperEdge styler (HyperEdge lMaybe srcNodes targetNodes) =
      (intercalate "," $ (fmtLabelAndType <<< unNode) <$> srcNodes)
   <> "->"
   <> (intercalate "," $ (fmtLabelAndType <<< unNode) <$> targetNodes)
