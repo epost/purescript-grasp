@@ -43,9 +43,6 @@ fmtNodeStyle attrs =
   where
     fmtAttr (k /\ v) = k <> "=" <> quote v
 
-quote :: String -> String
-quote s = "\"" <> s <> "\""
-
 --------------------------------------------------------------------------------
 
 type GraphVizAttr = Stylesheet.Key /\ String

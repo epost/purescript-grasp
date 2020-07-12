@@ -14,7 +14,7 @@
     "test": "spago test",
     "ex": "make example/test1.png",
     "bundle": "browserify browser/grasp.js > dist/grasp.js && npm run resources:copy",
-    "resources:copy": "copy ../node_modules/viz.js/viz.js ../node_modules/viz.js/full.render.js dist"
+    "resources:copy": "cp node_modules/viz.js/viz.js node_modules/viz.js/full.render.js dist"
   },
   "repository": {
     "type": "git",
