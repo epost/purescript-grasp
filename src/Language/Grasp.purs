@@ -9,6 +9,8 @@ import Data.Map as Map
 import Data.Either (Either(..), either)
 import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML
+import Language.Grasp.Generator.HyperGraphJson as HyperGraphJson
+import Language.Grasp.Generator.HyperGraphGraphViz as HyperGraphGraphViz
 import Language.Grasp.Parser as Parser
 import Language.Grasp.Stylesheet.Parser as SSParser
 import Language.Grasp.Stylesheet.AST (Stylesheet)
@@ -19,6 +21,8 @@ import Debug.Trace
 data OutputFormat
   = GraphVizDigraph
   | PlantUMLSequenceDiagram
+  | HyperGraphJson
+  | HyperGraphGraphViz
 
 compile :: OutputFormat -> String -> String
 compile outputFormat graspSrc =
@@ -34,8 +38,10 @@ compileWithStylesheet outputFormat graspSrc stylesheetSrc =
     generateCode = case outputFormat of
       GraphVizDigraph         -> GraphViz.digraph
       PlantUMLSequenceDiagram -> PlantUML.sequenceDiagram
+      HyperGraphJson          -> flip \_ -> HyperGraphJson.hyperGraphJsonString
+      HyperGraphGraphViz      -> HyperGraphGraphViz.digraph
 
-    graspAST = spy "graspAST" $ runParser graspSrc Parser.graph1
+    graspAST = runParser graspSrc Parser.graph1
 
     styler key = Map.lookup key stylesheet
 

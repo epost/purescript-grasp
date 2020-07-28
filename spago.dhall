@@ -1,9 +1,17 @@
 { name =
-	"grasp"
+    "grasp"
 , dependencies =
-	[ "console", "debug", "effect", "parsing", "psci-support", "spec" ]
+    [ "argonaut-core"
+    , "console"
+    , "debug"
+    , "effect"
+    , "parsing"
+    , "profunctor-lenses"
+    , "psci-support"
+    , "spec"
+    ]
 , packages =
-	./packages.dhall
+    ./packages.dhall
 , sources =
-	[ "src/**/*.purs", "test/**/*.purs" ]
+    [ "src/**/*.purs" ]
 }
