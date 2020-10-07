@@ -14,13 +14,13 @@ import Test.Spec.Assertions (shouldEqual)
 
 spec = do
   describe "grasp stylesheet parser" do
-    itParses "x {\n shape:box;\n color : red; \n }\n" Parser.selectorWithAttrs $
+    itParses "#x {\n shape:box;\n color: red; \n }\n" Parser.selectorWithAttrs $
       bimap List.fromFoldable List.fromFoldable $
       [ SNode "x" ] /\ [ "shape" /\ "box"
                        , "color" /\ "red"
                        ]
 
-    itParses "x {\n shape:box;\n color : red; \n } y {background: green }\n" Parser.stylesheet $
+    itParses "#x {\n shape:box;\n color : red; \n } #y {background: green }\n" Parser.stylesheet $
       List.fromFoldable <<< map (bimap List.fromFoldable List.fromFoldable) $
       [ [ SNode "x" ] /\ [ "shape" /\ "box"
                          , "color" /\ "red"

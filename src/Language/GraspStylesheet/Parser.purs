@@ -17,6 +17,7 @@ stylesheet =
 
 selectorWithAttrs :: Parser String (Selector /\ List Attr)
 selectorWithAttrs = do
+  _   <- char '#'
   sel <- (pure <<< SNode) <$> word
   _   <- string "{" `inside` spaces
   as  <- attrs
