@@ -35,7 +35,7 @@ compileWithStylesheet outputFormat graspSrc stylesheetSrc =
       GraphVizDigraph         -> GraphViz.digraph
       PlantUMLSequenceDiagram -> PlantUML.sequenceDiagram
 
-    graspAST = spy "graspAST" $ runParser graspSrc Parser.graph1
+    graspAST = runParser graspSrc Parser.graph1
 
     styler key = Map.lookup key stylesheet
 

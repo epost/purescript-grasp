@@ -14,6 +14,7 @@ process.stdin.on('readable', () => {
 })
 
 process.stdin.on('end', () => {
-  var target = GraspCLI.compile(firstOption)(strBuf_MUTABLE)
+  var stylesheet = ""
+  var target = GraspCLI.compile(firstOption)(strBuf_MUTABLE)(stylesheet)
   process.stdout.write(target)
 })

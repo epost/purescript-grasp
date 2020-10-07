@@ -10,7 +10,7 @@ import Data.Foldable (foldMap)
 type Label = String
 
 -- | This captures labels with (type) annotations, which may look something like `x:a`.
-type LabelAndType = Label /\ (Maybe Type)
+type LabelAndType = Label /\ Maybe Type
 
 type Type = String
 
@@ -18,7 +18,7 @@ type Node = NodeF LabelAndType
 
 type HyperEdge = HyperEdgeF List LabelAndType
 
--- | Graph element type. A graph is a bunch of nodes and edges, and can be be
+-- | Graph element type. A graph is a bunch of nodes and edges, and can be
 -- | represented as a `List GElem1` for example.
 type GElem1 = GElem1F List LabelAndType
 
@@ -26,7 +26,7 @@ type GElem1 = GElem1F List LabelAndType
 
 newtype NodeF a = Node a
 
-unNode :: forall f a. NodeF a -> a
+unNode :: forall a. NodeF a -> a
 unNode (Node x) = x
 
 derive instance eqNodeF :: Eq a => Eq (NodeF a)

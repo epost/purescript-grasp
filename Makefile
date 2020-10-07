@@ -1,16 +1,16 @@
-grasp=node js/grasp.js
+grasp=node cli/grasp.js
 
 build:
 	npm run build
 
 testcli:
 	npm run build
-	cat example/test1.grasp | node cli/grasp.js
-	cat example/test1.grasp | node cli/grasp.js -g
-	cat example/test1.grasp | node cli/grasp.js -p
+	cat example/test1.grasp | ${grasp}
+	cat example/test1.grasp | ${grasp} -g
+	cat example/test1.grasp | ${grasp} -p
 
 %.dot: %.grasp
-	cat $< | ${grasp} > $@
+	cat $< | ${grasp} -g > $@
 
 %.png: %.dot
 	dot -Kdot -Tpng $< > $@
@@ -19,10 +19,10 @@ cleanex:
 	rm -f example/*.dot example/*.png
 
 cleanps:
-	rm -rf .pulp-cache output
+	rm -rf output
 
 supercleanps:
-	rm -rf bower-components .pulp-cache output
+	rm -rf .spago output
 
 # prevent make from deleting intermediate files
 .PRECIOUS: example/test1.dot
