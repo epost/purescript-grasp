@@ -12,7 +12,7 @@ import Language.Grasp.Stylesheet.AST as Stylesheet
 import Language.Grasp.Stylesheet.AST (SelectorElem(..))
 
 digraph :: forall f. Functor f => Foldable f => f GElem1 -> Styler -> String
-digraph g styler = "digraph {\n  " <> (intercalate "\n  " (fmtGElem1 styler <$> g)) <> "\n}"
+digraph g styler = "digraph {\n  " <> intercalate "\n  " (fmtGElem1 styler <$> g) <> "\n}"
 
 fmtGElem1 :: Styler -> GElem1 -> String
 fmtGElem1 styler (GNode1 n)      = fmtNode styler n

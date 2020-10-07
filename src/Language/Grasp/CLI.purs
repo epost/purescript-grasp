@@ -9,7 +9,7 @@ import Language.Grasp as Grasp
 import Language.Grasp (OutputFormat(..))
 
 compile :: String -> String -> String -> String
-compile outputFormatOpt graspSrc stylesheetSrc  =
+compile outputFormatOpt graspSrc stylesheetSrc =
   Grasp.compileWithStylesheet outputFormat graspSrc stylesheetSrc
   where
     defaultOutputFormat = GraphVizDigraph

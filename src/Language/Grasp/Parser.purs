@@ -52,7 +52,7 @@ labelAndType =
   Tuple <$> label <*> (try typeAscription <|> nothing)
   where
     typeAscription = Just <$> (colon *> ident)
-    colon = (string ":") `inside` hspaces
+    colon = string ":" `inside` hspaces
     nothing = pure Nothing
 
 -- TODO stick the argument(s) in a separate field
