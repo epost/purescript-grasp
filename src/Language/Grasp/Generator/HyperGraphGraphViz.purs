@@ -1,9 +1,10 @@
 module Language.Grasp.Generator.HyperGraphGraphViz where
 
 import Prelude
+import Data.Foldable (fold)
 import Data.List as List
 import Data.List (List(..), elem)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), maybe)
 import Data.Tuple.Nested ((/\))
 import Language.Grasp.AST
 import Language.Grasp.Generator
@@ -15,21 +16,22 @@ import Language.Grasp.Generator.HyperGraph as HyperGraph
 -- | and then we hand the transformed graph off to GraphViz for visualisation.
 digraph :: List GElem1 -> Styler -> String
 digraph g styler =
-  GraphViz.digraph flattenedHyperGraph styler
+  GraphViz.digraph flattenedHyperGraph syntheticNodeStyler
   where
     flattenedHyperGraph = List.fromFoldable $ HyperGraph.interpretAsHypergraph2 g
 
-    styler :: Styler
-    styler sel = case List.uncons sel of
-      Just { head: sel@(Stylesheet.SNode nodeId), tail: Nil } | sel `elem` syntheticNodeSelectors -> Just (mkSyntheticNodeStyle nodeId)
-      _                                                                                           -> Nothing
+    syntheticNodeStyler :: Styler
+    syntheticNodeStyler sel = case List.uncons sel of
+      Just { head: selHead@(Stylesheet.SNode nodeId), tail: Nil } | selHead `elem` syntheticNodeSelectors -> Just (mkSyntheticNodeStyle nodeId <> fold (styler sel))
+      _                                                                                                   -> styler sel
       where
         syntheticNodeSelectors :: List Stylesheet.SelectorElem
         syntheticNodeSelectors = HyperGraph.hyperEdgeSelectors g
 
+
 mkSyntheticNodeStyle :: Label -> List GraphViz.GraphVizAttr
 mkSyntheticNodeStyle label = List.fromFoldable
-  [ "background" /\ "blue"
+  [ "background" /\ "goldenrod2"
   , "shape"      /\ "square"
   , "label"      /\ ""
   , "xlabel"     /\ label
