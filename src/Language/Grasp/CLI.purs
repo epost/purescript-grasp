@@ -19,4 +19,5 @@ parseOutputFormatOpt :: String -> Maybe OutputFormat
 parseOutputFormatOpt = case _ of
   "-g" -> Just $ GraphVizDigraph
   "-p" -> Just $ PlantUMLSequenceDiagram
+  "-m" -> Just $ MermaidGraphDiagram
   _    -> Nothing

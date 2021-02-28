@@ -9,6 +9,7 @@ import Data.Map as Map
 import Data.Either (Either(..), either)
 import Language.Grasp.Generator.GraphViz as GraphViz
 import Language.Grasp.Generator.PlantUML as PlantUML
+import Language.Grasp.Generator.Mermaid as Mermaid
 import Language.Grasp.Parser as Parser
 import Language.Grasp.Stylesheet.Parser as SSParser
 import Language.Grasp.Stylesheet.AST (Stylesheet)
@@ -19,6 +20,7 @@ import Debug.Trace
 data OutputFormat
   = GraphVizDigraph
   | PlantUMLSequenceDiagram
+  | MermaidGraphDiagram
 
 compile :: OutputFormat -> String -> String
 compile outputFormat graspSrc =
@@ -34,6 +36,7 @@ compileWithStylesheet outputFormat graspSrc stylesheetSrc =
     generateCode = case outputFormat of
       GraphVizDigraph         -> GraphViz.digraph
       PlantUMLSequenceDiagram -> PlantUML.sequenceDiagram
+      MermaidGraphDiagram     -> Mermaid.graphDiagram
 
     graspAST = runParser graspSrc Parser.graph1
 
