@@ -24,7 +24,7 @@ fmtGElem1 styler (GHyperEdge1 e) = fmtHyperEdge styler e
 fmtNode :: Styler -> Node -> String
 fmtNode styler (Node (label /\ typ)) =
   label <> "\n" <>
-  "  style " <> label <> " " <> "fill: #dddd00"
+  "  style " <> label <> " " <> style
   where
     style = foldMap (append " " <<< fmtNodeStyle) (styler (pure $ SNode label))
 
