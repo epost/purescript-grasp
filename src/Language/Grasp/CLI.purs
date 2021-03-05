@@ -17,6 +17,8 @@ compile outputFormatOpt graspSrc stylesheetSrc =
 
 parseOutputFormatOpt :: String -> Maybe OutputFormat
 parseOutputFormatOpt = case _ of
-  "-g" -> Just $ GraphVizDigraph
-  "-p" -> Just $ PlantUMLSequenceDiagram
-  _    -> Nothing
+  "-g"  -> Just $ GraphVizDigraph
+  "-p"  -> Just $ PlantUMLSequenceDiagram
+  "-hj" -> Just $ HyperGraphJson
+  "-hg" -> Just $ HyperGraphGraphViz
+  _     -> Nothing

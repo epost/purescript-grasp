@@ -2,6 +2,7 @@ module Language.Grasp.AST where
 
 import Prelude
 import Data.Eq (class Eq1)
+import Data.Identity (Identity(..))
 import Data.List (List(..))
 import Data.Maybe
 import Data.Tuple.Nested (type (/\), (/\))
@@ -61,3 +62,15 @@ derive instance functorGElem1F :: Functor f => Functor (GElem1F f)
 instance showGElem1 :: (Show a, Show (HyperEdgeF f a)) => Show (GElem1F f a) where
   show (GNode1 x)      = "(GNode1 "      <> show x <> ")"
   show (GHyperEdge1 x) = "(GHyperEdge1 " <> show x <> ")"
+
+--------------------------------------------------------------------------------
+
+type NonHyperEdgeF a = HyperEdgeF Identity a
+
+type NonHyperEdge = NonHyperEdgeF LabelAndType
+
+mkNonHyperEdge :: ∀ f a.  Maybe a -> NodeF a -> NodeF a -> NonHyperEdgeF a
+mkNonHyperEdge lMaybe s t = HyperEdge lMaybe (Identity s) (Identity t)
+
+toHyperEdge :: forall f a. Applicative f => NonHyperEdgeF a -> HyperEdgeF f a
+toHyperEdge (HyperEdge lMaybe (Identity s) (Identity t)) = HyperEdge lMaybe (pure s) (pure t)
