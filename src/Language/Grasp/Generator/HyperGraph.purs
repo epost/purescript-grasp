@@ -60,7 +60,7 @@ flattenHyperEdges = case _ of
 
 -- | Select the synthetic nodes that correspond to hyperedges in the input graph.
 hyperEdgeSelectors :: List GElem1 -> List SelectorElem
-hyperEdgeSelectors = List.mapMaybe (map Stylesheet.SNode <<< (preview (_1 >>> _hyperEdgeFLabelPrism >>> hyperEdgeFocus)))
+hyperEdgeSelectors = List.mapMaybe (map Stylesheet.SNode <<< preview (_1 >>> _hyperEdgeFLabelPrism >>> hyperEdgePrism))
 
 --------------------------------------------------------------------------------
 

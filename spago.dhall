@@ -5,6 +5,7 @@
     , "console"
     , "debug"
     , "effect"
+    , "filterable"
     , "parsing"
     , "profunctor-lenses"
     , "psci-support"
