@@ -3,7 +3,6 @@ module Test.Language.Grasp.DSL where
 
 import Prelude
 import Data.Either (Either(..), either)
-import Data.List (many, fromFoldable)
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested (type (/\), (/\))

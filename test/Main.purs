@@ -6,7 +6,7 @@ import Effect (Effect)
 import Effect.Class.Console (log)
 import Data.Either (Either(..))
 import Data.List as List
-import Data.List (many, fromFoldable, List(..))
+import Data.List (List(..))
 import Data.Maybe (Maybe(..))
 import Data.Map as Map
 import Data.Tuple (Tuple(..))
@@ -53,20 +53,20 @@ main = launchAff $ runSpec [consoleReporter] do
     itParses "x,y->z"                    Parser.hyperEdge $ HyperEdge Nothing      (Cons (node "x") (Cons (node "y") Nil))
                                                                                                     (Cons (node "z") Nil)
   describe "graph parsers" do
-    itParses "x;x->y;y->z"    Parser.graph1 $ fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
-    itParses "x\nx->y\ny->z"  Parser.graph1 $ fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
-    itParses "x; x->y ; y->z" Parser.graph1 $ fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
+    itParses "x;x->y;y->z"    Parser.graph1 $ List.fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
+    itParses "x\nx->y\ny->z"  Parser.graph1 $ List.fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
+    itParses "x; x->y ; y->z" Parser.graph1 $ List.fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"]
 
   describe "GraphViz backend" do
     it "should produce correct GraphViz output for simple graph" $
       GraphViz.digraph
-      [n "x", "x" ~~~> "y", "y" ~~~> "z"]
+      (List.fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"])
       (const Nothing)
       `shouldEqual`
       "digraph {\n  \"x\"\n  \"x\"->\"y\"\n  \"y\"->\"z\"\n}"
 
     it "should produce correct GraphViz output for styled graph" $ GraphViz.digraph
-      [n "x", "x" ~~~> "y", "y" ~~~> "z"]
+      (List.fromFoldable [n "x", "x" ~~~> "y", "y" ~~~> "z"])
       (styleEnv [(pure $ SNode "x") /\ ["background" /\ "red"]])
       `shouldEqual`
       "digraph {\n  \"x\" [fillcolor=\"red\"; style=\"filled\"]\n  \"x\"->\"y\"\n  \"y\"->\"z\"\n}"
